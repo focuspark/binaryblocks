@@ -1,0 +1,95 @@
+Binary Blocks
+
+A system for serializing data to a persistant storage which is both backwards and forewards compatible. Using a form of markup, transient data can be persisted and retrived reliably.
+
+Supported Fields
+
+* type
+	A simple instance of a native type or a struct.
+* struct
+	A complex organization of types, structs, and lists. The "root" value of any binary block definition is a struct.
+* list
+	A single dimension series of one kind of type or struct.
+* enum
+	An enumerated list of values.
+
+Native Types
+
+* byte
+	8 bit unsigned integer value. Supports a default value.
+* char
+	UTF-8 encoded character value. Supports a default value.
+* sint
+	32 bit signed integrer value. Supports a default value.
+* uint
+	32 bit unsigned integer value. Supports a default value.
+* slong
+	64 bit signed integer value. Supports a default value.
+* ulong
+	64 bit unsigned integer value. Supports a default value.
+* single
+	32 bit floating point value. Supports a default value.
+* double
+	64 bit floating point value. Supports a default value.
+* string
+	UTF-8 encoded array of character values. Supports a default value.
+* datetime
+	64 bit signed integer which represents the number of milliseconds before or after 0.1.1 00:00:00.0000Z. Supports a default value. Effective range is roughly 600 million years ranging from 292,271,023 BC to 292,271,023 CE.
+* timespan
+	64 bit unsigned integer which represents a number of elapsed picoseconds. Effective range is roughly 584,542 years.
+* blob
+	efficient storage of an array of bytes up to 2GB (2^31 bytes) in size.
+* guid
+	16 byte blob value. Supports a default value.
+
+Tag Structure
+ {
+	byte0 = Type Identifier
+	byte1 = MemberOrdinal
+	byte2 = reserved
+	byte3 = reserved
+ }
+
+!! NOTE: namespace, struct, and type names can only contain letters, numbers, and underscores and cannot begin with a number. !!
+
+Declarations
+
+Namespace
+	Namespace declariations scope all struct definitions with in a given definition file. Only a single namespace can be defined per definition file; more than one definition file can share a single namespace.
+
+	NOTE: A definition file without a namespace declaration will assume the empty namespace.
+
+Struct
+	Struct declcarations are in the format of the "struct" keyword followed by the name of the struct, followed by the definition of the struct bookended in a pair of braces "{ }".
+
+	Example:
+
+	struct <struct name>
+	{
+		<definition>
+	}
+
+	Structs should contain a number of members, each suffixed with a ordinal. The ordinal is the unqiue identifier for the member within this struct definition. 
+	Generally ordinals begin with 1, but can be any integer [1, 255]. This limits the number of members a struct can contain to 255.
+
+	NOTE: A struct without any member types will be ignored by the compiler.
+
+Enum
+	Enum delcarations are in the format of the "enum" keyword followed by the name of the enumeration and a bracketed list of the enumeration's values. Enumeration values are comma seperated and must be assigned literal values as needed.
+	Enumerations use a 32 bit signed storage type which allows for literal values ranging from -2147483648 to 2147483647.
+	
+	Example:
+
+	enum <enumeration name>
+	{
+		<value name> = <literal value>,
+	}
+
+Type
+	Type declarations are in the format of the "type" or "list" keyword followed by either a native type or the name of a customed defined struct, followed by the the name of the member. 
+	Each member must be suffixed with an unique ordinal. Each member definition
+	must be terminated with a semi-colon.
+
+	Example:
+
+	<type or list keyword> <native, struct, or enum name> <member name> = <ordinal>;

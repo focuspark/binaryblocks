@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{31370E40-A597-4402-969F-66C9A2EEC510}"
+	ProjectSection(SolutionItems) = preProject
+		Command.txt = Command.txt
+		DataStructures.bbdef = DataStructures.bbdef
+		sample-ex.bbd = sample-ex.bbd
+		sample.bbd = sample.bbd
+		Specification.txt = Specification.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common Files", "Common Files", "{CDE9C36D-D5B8-46D6-8D15-87D6DADC24FF}"
+	ProjectSection(SolutionItems) = preProject
+		Common\BinaryBlocks.cs = Common\BinaryBlocks.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsharpGenerator", "CsharpGenerator\CsharpGenerator.csproj", "{3809A07C-0648-49CE-8F69-257AE61083EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3809A07C-0648-49CE-8F69-257AE61083EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3809A07C-0648-49CE-8F69-257AE61083EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3809A07C-0648-49CE-8F69-257AE61083EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3809A07C-0648-49CE-8F69-257AE61083EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

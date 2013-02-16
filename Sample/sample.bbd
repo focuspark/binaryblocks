@@ -1,0 +1,9 @@
+namespace Sample
+{
+	struct Basic
+	{
+		type string Text = 1;
+		type sint Value = 2;
+		list single Values = 3;
+	}
+}

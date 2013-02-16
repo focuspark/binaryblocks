@@ -1,0 +1,22 @@
+bbcsgen -files <file [file]> -output <output_dir> [-namespace <root_namespace>]
+
+Options:
+	-files = -f, -file, --file, --files, /f, /file, /files
+		Space delimited list of one or more binary block definition files. 
+		Note: enclosing paths in quotes is recommended.
+	-output = -o, -out, --out, --output, /o, /out, /output
+		Target directory where all generated files are expected to go.
+	-namespace = -n, -name, -ns, --name, --namespace, --root, /n, /ns, /name, /namespace
+		Optional. The root namespace used for all generated files.
+
+Commands:
+	export
+		Creates the necissary C# file needed to use the generated code
+
+	specification
+		Shows details spefication information for the Binary Blocks typing language
+
+	license
+		Displays the license by which Binary Blocks can be used
+	
+		
