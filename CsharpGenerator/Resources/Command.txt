@@ -11,10 +11,10 @@ Options:
 
 Commands:
 	export
-		Creates the necissary C# file needed to use the generated code
+		Creates the necessary C# file needed to use the generated code
 
 	specification
-		Shows details spefication information for the Binary Blocks typing language
+		Shows details specification information for the Binary Blocks typing language
 
 	license
 		Displays the license by which Binary Blocks can be used

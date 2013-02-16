@@ -4,12 +4,15 @@ namespace Sample
     {
         public Complex()
         {
-            this.Children = new System.Collections.Generic.List<Complex>();
+            this.Leaves = new System.Collections.Generic.List<Basic>();
+            this.Branches = new System.Collections.Generic.List<Complex>();
         }
         /* Private */
-        private const byte _Children_ordinal = 4;
+        private const byte _Leaves_ordinal = 1;
+        private const byte _Branches_ordinal = 4;
         /* Public */
-        public System.Collections.Generic.List<Complex> Children { get; private set; }
+        public System.Collections.Generic.List<Basic> Leaves { get; private set; }
+        public System.Collections.Generic.List<Complex> Branches { get; private set; }
 
         public unsafe override void Deserialize(System.IO.Stream stream)
         {
@@ -26,9 +29,13 @@ namespace Sample
 
                 switch (block.Ordinal)
                 {
-                    case _Children_ordinal:
+                    case _Leaves_ordinal:
                         {
-                            this.Children = reader.ReadStructList<Complex>();
+                            this.Leaves = reader.ReadStructList<Basic>();
+                        } break;
+                    case _Branches_ordinal:
+                        {
+                            this.Branches = reader.ReadStructList<Complex>();
                         } break;
                     default:
                         reader.SkipBlock(block);
@@ -46,7 +53,8 @@ namespace Sample
 
             BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream);
 
-            writer.WriteStructList<Complex>(this.Children, _Children_ordinal);
+            writer.WriteStructList<Basic>(this.Leaves, _Leaves_ordinal);
+            writer.WriteStructList<Complex>(this.Branches, _Branches_ordinal);
         }
     }
 }

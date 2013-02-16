@@ -1,9 +1,11 @@
+/* namespaces use the C# format of declaration */
 namespace Sample
 {
 	struct Basic
 	{
 		type string Text = 1;
 		type sint Value = 2;
+		// an array of 32 bit floating values is easy to delcare
 		list single Values = 3;
 	}
 }

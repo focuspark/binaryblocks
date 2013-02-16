@@ -2,12 +2,16 @@ import "sample.bbd"
 
 namespace Sample
 {
+	/* structs can nest themselves */
 	struct Complex
 	{
-		list Complex Children = 4;
+		/* referencing of types from imported files uses the same rules as .NET */
+		list Basic   Leaves = 1; // ordinals can be any number 1-255
+		list Complex Branches = 4; // ordinals do not need to be sequential
 	}
 }
 
+/* namespaces can be complex when needed */
 namespace Sample.More
 {
 	struct Person
