@@ -1,6 +1,6 @@
 Binary Blocks
 
-A system for serializing data to a persistant storage which is both backwards and forewards compatible. Using a form of markup, transient data can be persisted and retrived reliably.
+A standard for serializing data to a persistent storage which is both backwards and forewords compatible. Using a form of markup, transient data can be persisted and retrived reliably.
 
 Supported Fields
 
