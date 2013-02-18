@@ -30,13 +30,6 @@ namespace Isris.BinaryBlocks.CsharpGenerator
         internal enum ScreenWriterOptions
         {
             None = 0,
-            WriteDescription = 1,
-            WriteActions = 2,
-            WriteState = 4,
-            WriteHead = 8,
-            WriteBase = 16,
-
-            Verbose = WriteDescription | WriteActions | WriteState
         };
     }
 }
