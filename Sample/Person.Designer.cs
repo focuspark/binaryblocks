@@ -11,7 +11,7 @@ namespace Sample.More
         private string _Name_value;
         private bool _DoB_exists;
         private const byte _DoB_ordinal = 2;
-        private System.DateTime _DoB_value;
+        private System.Timestamp _DoB_value;
         private bool _Len_exists;
         private const byte _Len_ordinal = 3;
         private System.TimeSpan _Len_value;
@@ -43,7 +43,7 @@ namespace Sample.More
                 _Name_exists = false;
             }
         }
-        public System.DateTime DoB
+        public System.Timestamp DoB
         {
             get
             {
@@ -137,7 +137,7 @@ namespace Sample.More
                         } break;
                     case _DoB_ordinal:
                         {
-                            this.DoB = reader.ReadDatetime();
+                            this.DoB = reader.ReadTimestamp();
                         } break;
                     case _Len_ordinal:
                         {
@@ -169,7 +169,7 @@ namespace Sample.More
             }
             if (_DoB_exists)
             {
-                writer.WriteDatetime(_DoB_value, _DoB_ordinal);
+                writer.WriteTimestamp(_DoB_value, _DoB_ordinal);
             }
             if (_Len_exists)
             {

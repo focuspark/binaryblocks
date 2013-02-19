@@ -17,7 +17,7 @@ namespace Sample.More
 	struct Person
 	{
 		type string Name = 1;
-		type datetime DoB = 2;
+		type timestamp DoB = 2;
 		type timespan Len = 3;
 		type Person Mother = 4;
 	}

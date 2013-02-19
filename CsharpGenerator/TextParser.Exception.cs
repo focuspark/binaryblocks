@@ -22,7 +22,7 @@
 
 using System;
 
-namespace Isris.BinaryBlocks.CsharpGenerator
+namespace BinaryBlocks.CsharpGenerator
 {
     static partial class TextParser
     {

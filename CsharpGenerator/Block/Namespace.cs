@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Isris.BinaryBlocks.CsharpGenerator.Block
+namespace BinaryBlocks.CsharpGenerator.Block
 {
     [System.Diagnostics.DebuggerDisplay("namespace {Name}")]
     internal class Namespace : Block.Base

@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{31370E40-A597-4402-969F-66C9A2EEC510}"
 	ProjectSection(SolutionItems) = preProject
 		Command.txt = Command.txt
-		DataStructures.bbdef = DataStructures.bbdef
-		sample-ex.bbd = sample-ex.bbd
-		sample.bbd = sample.bbd
 		Specification.txt = Specification.txt
 	EndProjectSection
 EndProject
@@ -16,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common Files", "Common File
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsharpGenerator", "CsharpGenerator\CsharpGenerator.csproj", "{3809A07C-0648-49CE-8F69-257AE61083EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{DE0072D1-64CD-40EB-87DF-B4A59475181C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +26,10 @@ Global
 		{3809A07C-0648-49CE-8F69-257AE61083EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3809A07C-0648-49CE-8F69-257AE61083EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3809A07C-0648-49CE-8F69-257AE61083EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE0072D1-64CD-40EB-87DF-B4A59475181C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE0072D1-64CD-40EB-87DF-B4A59475181C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE0072D1-64CD-40EB-87DF-B4A59475181C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE0072D1-64CD-40EB-87DF-B4A59475181C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

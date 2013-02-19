@@ -23,7 +23,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Isris.BinaryBlocks
+namespace BinaryBlocks
 {
     internal static class Debug
     {
