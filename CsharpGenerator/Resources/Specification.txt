@@ -34,9 +34,9 @@ Native Types
 * string
 	UTF-8 encoded array of character values. Supports a default value.
 * timestamp
-	64 bit signed integer which represents the number of milliseconds before or after 0.1.1 00:00:00.0000Z. Supports a default value. Effective range is roughly 600 million years ranging from 292,271,023 BC to 292,271,023 CE.
+	64 bit signed integer which represents the number of milliseconds before or after 00-01-001 00:00:00.0000Z. Supports a default value. Effective range is roughly 500 million years ranging from 250,000,000 BCE to 250,000,000 CE.
 * timespan
-	64 bit unsigned integer which represents a number of elapsed picoseconds. Effective range is roughly 584,542 years.
+	64 bit unsigned integer which represents a number of elapsed Ticks Effective range is roughly 584,542 years.
 * blob
 	efficient storage of an array of bytes up to 2GB (2^31 bytes) in size.
 * guid
