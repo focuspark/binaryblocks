@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{31370E40-A597-4402-969F-66C9A2EEC510}"
 	ProjectSection(SolutionItems) = preProject
 		Command.txt = Command.txt
+		DataStructures.bbdef = DataStructures.bbdef
+		sample-ex.bbd = sample-ex.bbd
+		sample.bbd = sample.bbd
 		Specification.txt = Specification.txt
 	EndProjectSection
 EndProject
