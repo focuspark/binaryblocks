@@ -12,14 +12,6 @@ namespace Sample
         {
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
-            sw.Start();
-            for (int i = -250000; i < 249999; i += 1)
-            {
-                Timestamp t1 = new Timestamp(i, 1, 1);
-                Timestamp t2 = new Timestamp(t1.Microseconds);
-            }
-            sw.Stop();
-
             Basic basic1 = new Basic()
             {
                 Text = "This is a sample object to be serialized",

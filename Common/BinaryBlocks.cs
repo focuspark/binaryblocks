@@ -722,7 +722,7 @@ namespace BinaryBlocks
         public void WriteTimestamp(System.Timestamp value, byte ordinal)
         {
             _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Timestamp }).Value);
-            _writer.Write(value.Microseconds);
+            _writer.Write(value.TotalMilliseconds);
         }
 
         public void WriteTimestampList(System.Collections.Generic.List<System.Timestamp> values, byte ordinal)
@@ -731,7 +731,7 @@ namespace BinaryBlocks
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
-                _writer.Write(values[i].Microseconds);
+                _writer.Write(values[i].TotalMilliseconds);
             }
         }
 
@@ -799,8 +799,8 @@ namespace System
     internal unsafe struct Timestamp : System.IComparable, System.IComparable<Timestamp>, System.IEquatable<Timestamp>
     {
         #region Constants
-        private const int MinimumYear = -250000;
-        private const int MaximumYear = 249999;
+        private const int MinimumYear = -250000000;
+        private const int MaximumYear = 249999999;
         public const int SecondsPerMinute = 60;
         public const int MinutesPerHour = 60;
         public const int HoursPerDay = 24;
@@ -809,13 +809,12 @@ namespace System
         public const int YearsPer1CLeapYear = 100;
         public const int YearsPer4CLeapYear = 400;
         public const int YearsPer4MLeapYear = 4000;
-        public const int TicksPerMicrosecond = 10;
-        public const long MicrosecondsPerMillisecond = 1000;
-        public const long MicrosecondsPerSecond = 1000000;
-        public const long MicrosecondsPerMinute = MicrosecondsPerSecond * SecondsPerMinute;
-        public const long MicrosecondsPerHour = MicrosecondsPerMinute * MinutesPerHour;
-        public const long MicrosecondsPerDay = MicrosecondsPerHour * HoursPerDay;
-        public const long MicrosecondsPerYear = MicrosecondsPerDay * DaysPerYear;
+        public const int TicksPerMicrosecond = 10000;
+        public const long MillisecondsPerSecond = 1000;
+        public const long MillisecondsPerMinute = MillisecondsPerSecond * SecondsPerMinute;
+        public const long MillisecondsPerHour = MillisecondsPerMinute * MinutesPerHour;
+        public const long MillisecondsPerDay = MillisecondsPerHour * HoursPerDay;
+        public const long MillisecondsPerYear = MillisecondsPerDay * DaysPerYear;
         public static readonly int[] DaysPerMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         /// <summary>
         /// Represents the smallest possible value of System.Timestamp. This field is read-only.
@@ -843,18 +842,18 @@ namespace System
         /// <summary>
         /// Creates a Timestamp structure from the raw number of microseconds
         /// </summary>
-        /// <param name="microseconds">The number of microseconds before or after 0-01-01 CE 00:00:00.0000Z</param>
-        public Timestamp(long microseconds)
+        /// <param name="milliseconds">The number of microseconds before or after 0-01-01 CE 00:00:00.0000Z</param>
+        public Timestamp(long milliseconds)
             : this()
         {
             #region Parameter Validation
-            if (microseconds < Timestamp.MinValue.Microseconds || microseconds > Timestamp.MaxValue.Microseconds)
-                throw new System.ArgumentOutOfRangeException("microseconds", System.String.Format("The microseconds parameter is restricted to [{0}, {1}]", Timestamp.MinValue.Microseconds, Timestamp.MaxValue.Microseconds));
+            if (milliseconds < Timestamp.MinValue.TotalMilliseconds || milliseconds > Timestamp.MaxValue.TotalMilliseconds)
+                throw new System.ArgumentOutOfRangeException("microseconds", System.String.Format("The microseconds parameter is restricted to [{0}, {1}]", Timestamp.MinValue.TotalMilliseconds, Timestamp.MaxValue.TotalMilliseconds));
             #endregion
             // record the actuall milliseconds passed in as the base value
-            this.Microseconds = microseconds;
+            this.TotalMilliseconds = milliseconds;
             // get the absolute number of milliseconds because the math works this way
-            microseconds = System.Math.Abs(microseconds);
+            milliseconds = System.Math.Abs(milliseconds);
             // local variables
             int year = 0;
             int month = -1;
@@ -864,8 +863,8 @@ namespace System
             int second = 0;
             int millisecond = 0;
             // compute the year
-            day = (int)(microseconds / MicrosecondsPerDay);
-            microseconds -= day * MicrosecondsPerDay;
+            day = (int)(milliseconds / MillisecondsPerDay);
+            milliseconds -= day * MillisecondsPerDay;
             // calculate the year based on the number of days, first by blocks of 400 the by per year
             /**
              * investigated into doing this via a simple math equation with years first, but was unable to because
@@ -886,17 +885,16 @@ namespace System
                     day -= 1;
             }
             // compute the hours
-            hour = (int)(microseconds / MicrosecondsPerHour);
-            microseconds -= hour * MicrosecondsPerHour;
+            hour = (int)(milliseconds / MillisecondsPerHour);
+            milliseconds -= hour * MillisecondsPerHour;
             // compute the minutes
-            minute = (int)(microseconds / MicrosecondsPerMinute);
-            microseconds -= minute * MicrosecondsPerMinute;
+            minute = (int)(milliseconds / MillisecondsPerMinute);
+            milliseconds -= minute * MillisecondsPerMinute;
             // compute the seconds
-            second = (int)(microseconds / MicrosecondsPerSecond);
-            microseconds -= second * MicrosecondsPerSecond;
-            // compute the milliseconds
-            millisecond = (int)(microseconds / MicrosecondsPerMillisecond);
-            microseconds -= millisecond * MicrosecondsPerMillisecond;
+            second = (int)(milliseconds / MillisecondsPerSecond);
+            milliseconds -= second * MillisecondsPerSecond;
+            // collect the left overs
+            millisecond = (int)milliseconds;
             // discover the month by subtracting the days per month of each month starting with January
             for (int i = 0; i < DaysPerMonth.Length; i++)
             {
@@ -929,7 +927,7 @@ namespace System
             this.Minute = minute;
             this.Second = second;
             this.Millisecond = millisecond;
-            this.Era = this.Microseconds < 0 ? TimestampEra.BCE : TimestampEra.CE;
+            this.Era = this.TotalMilliseconds < 0 ? TimestampEra.BCE : TimestampEra.CE;
         }
         /// <summary>
         /// Creates a Timestamp structure
@@ -961,24 +959,23 @@ namespace System
                 throw new System.ArgumentOutOfRangeException("millisecond", "The millisecond parameter is restricted to [0, 1000)");
             #endregion
             int absyear = System.Math.Abs(year);
-            long microseconds = absyear * MicrosecondsPerYear;
-            microseconds += (absyear / YearsPerLeapYear) * MicrosecondsPerDay;
-            microseconds -= (absyear / YearsPer1CLeapYear) * MicrosecondsPerDay;
-            microseconds += (absyear / YearsPer4CLeapYear) * MicrosecondsPerDay;
+            long milliseconds = absyear * MillisecondsPerYear;
+            milliseconds += (absyear / YearsPerLeapYear) * MillisecondsPerDay;
+            milliseconds -= (absyear / YearsPer1CLeapYear) * MillisecondsPerDay;
+            milliseconds += (absyear / YearsPer4CLeapYear) * MillisecondsPerDay;
             for (int i = 0; i < month - 1; i++)
             {
-                microseconds += DaysPerMonth[i] * MicrosecondsPerDay;
+                milliseconds += DaysPerMonth[i] * MillisecondsPerDay;
                 // if we're in March, add an extra day if it is a leap year
                 if (i == 2 && year % YearsPerLeapYear == 0 && (year % YearsPer1CLeapYear != 0 || year % YearsPer4CLeapYear == 0))
                 {
-                    microseconds += MicrosecondsPerDay;
+                    milliseconds += MillisecondsPerDay;
                 }
             }
-            microseconds += (day - 1) * MicrosecondsPerDay;
-            microseconds += hour * MicrosecondsPerHour;
-            microseconds += minute * MicrosecondsPerMinute;
-            microseconds += second * MicrosecondsPerSecond;
-            microseconds += millisecond * MicrosecondsPerMillisecond;
+            milliseconds += (day - 1) * MillisecondsPerDay;
+            milliseconds += hour * MillisecondsPerHour;
+            milliseconds += minute * MillisecondsPerMinute;
+            milliseconds += second * MillisecondsPerSecond;
 
             this.Year = absyear;
             this.Month = month;
@@ -988,7 +985,7 @@ namespace System
             this.Second = second;
             this.Millisecond = millisecond;
             this.Era = year < 0 ? TimestampEra.BCE : TimestampEra.CE;
-            this.Microseconds = year < 0 ? -microseconds : microseconds;
+            this.TotalMilliseconds = year < 0 ? -milliseconds : milliseconds;
         }
         /// <summary>
         /// Creates a System.Timestamp from a System.DateTime
@@ -1017,7 +1014,7 @@ namespace System
             this.Month = timestamp.Month;
             this.Second = timestamp.Second;
             this.Year = timestamp.Year;
-            this.Microseconds = timestamp.Microseconds;
+            this.TotalMilliseconds = timestamp.TotalMilliseconds;
         }
         #endregion
         #region Members
@@ -1060,11 +1057,11 @@ namespace System
         /// <summary>
         /// Gets the number of ticks that represent the date and time of this instance either before or after 0-1-1 00:00:00Z.
         /// </summary>
-        public long Ticks { get { return this.Microseconds * TicksPerMicrosecond; } }
+        public long Ticks { get { return this.TotalMilliseconds * TicksPerMicrosecond; } }
         /// <summary>
-        /// Gets the number of microseconds that represent the date and time of this instance either before or after 0-1-1 00:00:00Z.
+        /// Get the number of milliseconds before or after 00-01-01 00:00:00.000Z
         /// </summary>
-        public long Microseconds { get; private set; }
+        public long TotalMilliseconds { get; private set; }
         #endregion
         #region Methods
         /// <summary>
@@ -1075,7 +1072,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp Add(System.TimeSpan value)
         {
-            return new System.Timestamp(this.Microseconds + value.Ticks / TicksPerMicrosecond);
+            return new System.Timestamp(this.TotalMilliseconds + value.Ticks / TicksPerMicrosecond);
         }
         /// <summary>
         /// Returns a new System.Timestamp that adds the specified number of days to the value of this instance.
@@ -1085,7 +1082,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp AddDays(int value)
         {
-            return new System.Timestamp(this.Microseconds + (value * MicrosecondsPerDay));
+            return new System.Timestamp(this.TotalMilliseconds + (value * MillisecondsPerDay));
         }
         /// <summary>
         /// Returns a new System.Timestamp that adds the specified number of hours to the value of this instance.
@@ -1095,7 +1092,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp AddHours(int value)
         {
-            return new System.Timestamp(this.Microseconds + (value * MicrosecondsPerHour));
+            return new System.Timestamp(this.TotalMilliseconds + (value * MillisecondsPerHour));
         }
         /// <summary>
         /// Returns a new System.Timestamp that adds the specified number of milliseconds to the value of this instance.
@@ -1105,7 +1102,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp AddMilliseconds(int value)
         {
-            return new System.Timestamp(this.Microseconds + (value * MicrosecondsPerMillisecond));
+            return new System.Timestamp(this.TotalMilliseconds + value);
         }
         /// <summary>
         /// Returns a new System.Timestamp that adds the specified number of minutes to the value of this instance.
@@ -1115,7 +1112,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp AddMinutes(int value)
         {
-            return new System.Timestamp(this.Microseconds + (value * MicrosecondsPerMinute));
+            return new System.Timestamp(this.TotalMilliseconds + (value * MillisecondsPerMinute));
         }
         /// <summary>
         /// Returns a new System.Timestamp that adds the specified number of months to the value of this instance.
@@ -1125,17 +1122,17 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp AddMonths(int months)
         {
-            long microseconds = this.Microseconds;
+            long microseconds = this.TotalMilliseconds;
             for (int i = 0; i < months; i++)
             {
                 int month = (this.Month + i) % DaysPerMonth.Length;
-                microseconds += DaysPerMonth[month] * MicrosecondsPerDay;
+                microseconds += DaysPerMonth[month] * MillisecondsPerDay;
                 if (month == 1 &&
                     (this.Year + (this.Month + i) / 12) % YearsPerLeapYear == 0 &&
                     (this.Year + (this.Month + i) / 12) % YearsPer1CLeapYear != 100 &&
                     (this.Year + (this.Month + i) / 12) % YearsPer4CLeapYear == 0)
                 {
-                    microseconds += MicrosecondsPerDay;
+                    microseconds += MillisecondsPerDay;
                 }
             }
             return new System.Timestamp(microseconds);
@@ -1148,7 +1145,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp AddSeconds(int value)
         {
-            return new System.Timestamp(this.Microseconds + (value * MicrosecondsPerSecond));
+            return new System.Timestamp(this.TotalMilliseconds + (value * MillisecondsPerSecond));
         }
         /// <summary>
         /// Returns a new System.Timestamp that adds the specified number of ticks to the value of this instance.
@@ -1158,7 +1155,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp AddTicks(long value)
         {
-            return new System.Timestamp(this.Microseconds + value / TicksPerMicrosecond);
+            return new System.Timestamp(this.TotalMilliseconds + value / TicksPerMicrosecond);
         }
         /// <summary>
         /// Returns a new System.Timestamp that adds the specified number of years to the value of this instance.
@@ -1168,7 +1165,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp AddYears(int value)
         {
-            return new Timestamp(this.Microseconds + value * MicrosecondsPerYear);
+            return new Timestamp(this.TotalMilliseconds + value * MillisecondsPerYear);
         }
         /// <summary>
         /// Converts System.Timestamp to System.DateTime.
@@ -1176,7 +1173,7 @@ namespace System
         /// <returns>A System.DateTime which represents the same date and time as this System.Timespace.</returns>
         public System.DateTime ToDateTime()
         {
-            return new System.DateTime(Microseconds * TicksPerMicrosecond, System.DateTimeKind.Utc);
+            return new System.DateTime(this.TotalMilliseconds * TicksPerMicrosecond, System.DateTimeKind.Utc);
         }
         #region System.Object
         /// <summary>
@@ -1194,7 +1191,7 @@ namespace System
             if (!(obj is Timestamp))
                 throw new System.ArgumentException("The type of obj is not System.Timestamp", "obj");
             #endregion
-            return this.Microseconds.Equals(((Timestamp)obj).Microseconds);
+            return this.TotalMilliseconds.Equals(((Timestamp)obj).TotalMilliseconds);
         }
         /// <summary>
         /// Serves as a hash function for a System.Timestamp.
@@ -1203,7 +1200,7 @@ namespace System
         /// <remarks>Overrides System.Object.GetHashCode</remarks>
         public override int GetHashCode()
         {
-            return this.Microseconds.GetHashCode();
+            return this.TotalMilliseconds.GetHashCode();
         }
         /// <summary>
         /// Returns a string that represents the current value.
@@ -1211,7 +1208,7 @@ namespace System
         /// <returns>A UTC formatted string that represents the current value.</returns>
         public override string ToString()
         {
-            return string.Format("{0:00}-{1:00}-{2:00} {3} {4:00}:{5:00}:{6:00}Z", Year, Month, Day, Era, Hour, Minute, Second);
+            return string.Format("{0:###,###,###,#00}-{1:00}-{2:00} {3} {4:00}:{5:00}:{6:00}Z", Year, Month, Day, Era, Hour, Minute, Second);
         }
         #endregion
         #region System.IComparable
@@ -1229,7 +1226,7 @@ namespace System
             if (!(obj is Timestamp))
                 throw new System.ArgumentException("The type of obj is not System.Timestamp", "obj");
             #endregion
-            return this.Microseconds.CompareTo(((Timestamp)obj).Microseconds);
+            return this.TotalMilliseconds.CompareTo(((Timestamp)obj).TotalMilliseconds);
         }
         #endregion
         #region System.IComparable<Timestamp>
@@ -1242,7 +1239,7 @@ namespace System
         int System.IComparable<System.Timestamp>.CompareTo(System.Timestamp that)
         {
             // Timestamp is a struct, no need to check null first
-            return this.Microseconds.CompareTo(that.Microseconds);
+            return this.TotalMilliseconds.CompareTo(that.TotalMilliseconds);
         }
         #endregion
         #region System.IEquatable<Timestamp>
@@ -1254,7 +1251,7 @@ namespace System
         bool System.IEquatable<System.Timestamp>.Equals(System.Timestamp that)
         {
             // Timestamp is a struct, no need to check null first
-            return this.Microseconds == that.Microseconds;
+            return this.TotalMilliseconds == that.TotalMilliseconds;
         }
         #endregion
         #endregion
@@ -1267,7 +1264,7 @@ namespace System
         /// <returns>The time interval between a and b; that is, a minus b.</returns>
         public static System.TimeSpan operator -(System.Timestamp a, System.Timestamp b)
         {
-            long ticks = (a.Microseconds - b.Microseconds) * 10;
+            long ticks = (a.TotalMilliseconds - b.TotalMilliseconds) * 10;
             return new System.TimeSpan(ticks);
         }
         /// <summary>
@@ -1279,7 +1276,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">The resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public static System.Timestamp operator -(System.Timestamp d, System.TimeSpan t)
         {
-            return new System.Timestamp(d.Microseconds - (t.Ticks / System.Timestamp.TicksPerMicrosecond));
+            return new System.Timestamp(d.TotalMilliseconds - (t.Ticks / System.Timestamp.TicksPerMicrosecond));
         }
         /// <summary>
         /// Determines whether two specified instances of System.Timestamp are not equal.
@@ -1290,7 +1287,7 @@ namespace System
         public static bool operator !=(System.Timestamp a, System.Timestamp b)
         {
             {
-                return a.Microseconds != b.Microseconds;
+                return a.TotalMilliseconds != b.TotalMilliseconds;
             }
         }
         /// <summary>
@@ -1302,7 +1299,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">The resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public static System.Timestamp operator +(System.Timestamp d, System.TimeSpan t)
         {
-            return new System.Timestamp(d.Microseconds + (t.Ticks / System.Timestamp.TicksPerMicrosecond));
+            return new System.Timestamp(d.TotalMilliseconds + (t.Ticks / System.Timestamp.TicksPerMicrosecond));
         }
         /// <summary>
         /// Determines whether one specified System.Timestamp is less than another specified System.Timestamp.
@@ -1312,7 +1309,7 @@ namespace System
         /// <returns>true if a is less than b; otherwise, false.</returns>
         public static bool operator <(System.Timestamp a, System.Timestamp b)
         {
-            return a.Microseconds < b.Microseconds;
+            return a.TotalMilliseconds < b.TotalMilliseconds;
         }
         /// <summary>
         /// Determines whether one specified System.Timestamp is less than or equal to another specified System.Timestamp.
@@ -1322,7 +1319,7 @@ namespace System
         /// <returns>true if a is less than or equal to b; otherwise, false.</returns>
         public static bool operator <=(System.Timestamp a, System.Timestamp b)
         {
-            return a.Microseconds <= b.Microseconds;
+            return a.TotalMilliseconds <= b.TotalMilliseconds;
         }
         /// <summary>
         /// Determines whether two specified instances of System.Timestamp are equal.
@@ -1332,7 +1329,7 @@ namespace System
         /// <returns>true if a and b represent the same date and time; otherwise, false.</returns>
         public static bool operator ==(System.Timestamp a, System.Timestamp b)
         {
-            return a.Microseconds == b.Microseconds;
+            return a.TotalMilliseconds == b.TotalMilliseconds;
         }
         /// <summary>
         /// Determines whether one specified System.Timestamp is greater than another specified System.Timestamp.
@@ -1342,7 +1339,7 @@ namespace System
         /// <returns> true if a is greater than b; otherwise, false.</returns>
         public static bool operator >(System.Timestamp a, System.Timestamp b)
         {
-            return a.Microseconds > b.Microseconds;
+            return a.TotalMilliseconds > b.TotalMilliseconds;
         }
         /// <summary>
         /// Determines whether one specified System.Timestamp is greater than or equal to another specified System.Timestamp
@@ -1352,7 +1349,7 @@ namespace System
         /// <returns>true if a is greater than or equal to b; otherwise, false.</returns>
         public static bool operator >=(System.Timestamp a, System.Timestamp b)
         {
-            return a.Microseconds >= b.Microseconds;
+            return a.TotalMilliseconds >= b.TotalMilliseconds;
         }
         #endregion
     }
