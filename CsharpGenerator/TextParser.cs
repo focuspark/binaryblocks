@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Isris.BinaryBlocks.CsharpGenerator
+namespace BinaryBlocks.CsharpGenerator
 {
     internal static partial class TextParser
     {

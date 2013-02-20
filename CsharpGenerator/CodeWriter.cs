@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Isris.BinaryBlocks.CsharpGenerator
+namespace BinaryBlocks.CsharpGenerator
 {
     internal class CodeWriter
     {

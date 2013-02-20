@@ -32,7 +32,7 @@ Native Types
 	64 bit floating point value. Supports a default value.
 * string
 	UTF-8 encoded array of character values. Supports a default value.
-* datetime
+* timestamp
 	64 bit signed integer which represents the number of milliseconds before or after 0.1.1 00:00:00.0000Z. Supports a default value. Effective range is roughly 600 million years ranging from 292,271,023 BC to 292,271,023 CE.
 * timespan
 	64 bit unsigned integer which represents a number of elapsed picoseconds. Effective range is roughly 584,542 years.

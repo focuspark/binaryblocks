@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Isris.BinaryBlocks.CsharpGenerator.Block
+namespace BinaryBlocks.CsharpGenerator.Block
 {
     [System.Diagnostics.DebuggerDisplay("{Type} {Name}")]
     internal class Member : Block.Base
@@ -16,7 +16,8 @@ namespace Isris.BinaryBlocks.CsharpGenerator.Block
                 case "blob": this.Type = BlockType.Blob; break;
                 case "byte": this.Type = BlockType.Byte; break;
                 case "char": this.Type = BlockType.Char; break;
-                case "datetime": this.Type = BlockType.Datetime; break;
+                case "timestamp": this.Type = BlockType.Timestamp; break;
+                case "datetime": throw new TextParser.Exception(index, "The datetime type has been deprecated. Please use timestamp instead.");
                 case "double": this.Type = BlockType.Double; break;
                 case "guid": this.Type = BlockType.Guid; break;
                 case "single": this.Type = BlockType.Single; break;

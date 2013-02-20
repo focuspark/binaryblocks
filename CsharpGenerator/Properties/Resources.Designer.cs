@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Isris.BinaryBlocks.CsharpGenerator.Properties {
+namespace BinaryBlocks.CsharpGenerator.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Isris.BinaryBlocks.CsharpGenerator.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Isris.BinaryBlocks.CsharpGenerator.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BinaryBlocks.CsharpGenerator.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -112,7 +112,7 @@ namespace Isris.BinaryBlocks.CsharpGenerator.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Binary Blocks
         ///
-        ///A system for serializing data to a persistant storage which is both backwards and forewards compatible. Using a form of markup, transient data can be persisted and retrived reliably.
+        ///A standard for serializing data to a persistent storage which is both backwards and forewords compatible. Using a form of markup, transient data can be persisted and retrived reliably.
         ///
         ///Supported Fields
         ///
@@ -123,7 +123,7 @@ namespace Isris.BinaryBlocks.CsharpGenerator.Properties {
         ///* list
         ///	A single dimension series of one kind of type or struct.
         ///* enum
-        ///	An enumerated list of values. [rest of string was truncated]&quot;;.
+        ///	An enumerated list of value [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Specification {
             get {

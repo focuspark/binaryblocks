@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Binary Blocks CSharp Generator")]
-[assembly: AssemblyDescription("Converts bbdef files into c-sharp files")]
+[assembly: AssemblyTitle("Sample")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jeremy Wyman")]
-[assembly: AssemblyProduct("Binary Blocks CSharp Generator")]
-[assembly: AssemblyCopyright("Copyright © Jeremy Wyman 2012")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Sample")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("beab33e0-f421-456c-a69f-ca0106829d6b")]
+[assembly: Guid("e1b8c93b-77f7-42fa-8e29-a14ac0d918d4")]
 
 // Version information for an assembly consists of the following four values:
 //

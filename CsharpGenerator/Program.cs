@@ -27,7 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Isris.BinaryBlocks.CsharpGenerator
+namespace BinaryBlocks.CsharpGenerator
 {
     public static partial class Program
     {
@@ -69,15 +69,15 @@ namespace Isris.BinaryBlocks.CsharpGenerator
                 case "--help":
                 case "/h":
                 case "/help":
-                    new ScreenWriter().WriteText(Properties.Resources.Command);                
+                    new ScreenWriter().WriteText(Properties.Resources.Command);
                     Environment.Exit(Environment.ExitCode);
                     break;
                 case "specification":
-                    new ScreenWriter().WriteText(Properties.Resources.Specification);                
+                    new ScreenWriter().WriteText(Properties.Resources.Specification);
                     Environment.Exit(Environment.ExitCode);
                     break;
                 case "license":
-                    new ScreenWriter().WriteText(Properties.Resources.License);                
+                    new ScreenWriter().WriteText(Properties.Resources.License);
                     Environment.Exit(Environment.ExitCode);
                     break;
                 case "export":
@@ -240,7 +240,8 @@ namespace Isris.BinaryBlocks.CsharpGenerator
                         break;
                     }
                 }
-                Console.Error.WriteLine("Parse error in {0} line {1} character {2} \"{3}\"", path, linenumber, position, exception.Message);
+                Console.Error.WriteLine("Parse error in {0} line {1} character {2}", path, linenumber + 1, position + 1);
+                Console.Error.WriteLine(exception.Message);
                 Debug.Break();
                 Environment.Exit(-1);
             }
@@ -264,7 +265,8 @@ namespace Isris.BinaryBlocks.CsharpGenerator
                         break;
                     }
                 }
-                Console.Error.WriteLine("Parse error in {0} line {1} character {2} \"{3}\"", exception.Block.Source, linenumber + 1, position + 1, exception.Message);
+                Console.Error.WriteLine("Parse error in {0} line {1} character {2} \"{3}\"", exception.Block.Source, linenumber + 1, position + 1);
+                Console.Error.WriteLine(exception.Message);
                 Debug.Break();
                 Environment.Exit(-1);
             }
@@ -864,7 +866,7 @@ namespace Isris.BinaryBlocks.CsharpGenerator
                 case "single": return "float";
                 case "double": return "double";
                 case "string": return "string";
-                case "datetime": return "System.DateTime";
+                case "timestamp": return "System.Timestamp";
                 case "timespan": return "System.TimeSpan";
                 case "guid": return "System.Guid";
                 case "blob": return "byte[]";

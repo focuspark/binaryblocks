@@ -28,7 +28,7 @@ using System.Text.RegularExpressions;
 using StringReader = System.IO.StringReader;
 using TextWriter = System.IO.TextWriter;
 
-namespace Isris.BinaryBlocks.CsharpGenerator
+namespace BinaryBlocks.CsharpGenerator
 {
     partial class Program
     {
