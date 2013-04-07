@@ -809,7 +809,7 @@ namespace BinaryBlocks.CsharpGenerator
                 writer.Write("/* Public */")
                       .Merge(accessors);
                 writer.Write();
-                writer.Write("public unsafe override void Deserialize(System.IO.Stream stream)");
+                writer.Write("public override void Deserialize(System.IO.Stream stream)");
                 writer.BeginBlock()
                     .Write("if (stream == null)")
                         .WriteIndented("throw new System.ArgumentNullException();")
@@ -832,7 +832,7 @@ namespace BinaryBlocks.CsharpGenerator
                     .EndBlock()
                 .EndBlock();
                 writer.Write();
-                writer.Write("public unsafe override void Serialize(System.IO.Stream stream)");
+                writer.Write("public override void Serialize(System.IO.Stream stream)");
                 writer.BeginBlock()
                     .Write("if (stream == null)")
                         .WriteIndented("throw new System.ArgumentNullException();")

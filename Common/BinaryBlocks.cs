@@ -59,7 +59,7 @@ namespace BinaryBlocks
         public uint Value;
     }
 
-    internal unsafe class BinaryBlockReader : System.IDisposable
+    internal class BinaryBlockReader : System.IDisposable
     {
         #region Constants
         const int MaxReadSize = 64 * 1024; // 64kb
@@ -166,7 +166,7 @@ namespace BinaryBlocks
 
         public System.Guid ReadGuid()
         {
-            byte[] bytes = _reader.ReadBytes(sizeof(System.Guid));
+            byte[] bytes = _reader.ReadBytes(16);
             return new System.Guid(bytes);
         }
 
@@ -176,7 +176,7 @@ namespace BinaryBlocks
             int count = _reader.ReadInt32();
             for (int i = 0; i < count; i++)
             {
-                byte[] bytes = _reader.ReadBytes(sizeof(System.Guid));
+                byte[] bytes = _reader.ReadBytes(16);
                 values.Add(new System.Guid(bytes));
             }
             return values;
@@ -444,7 +444,7 @@ namespace BinaryBlocks
         #endregion
     }
 
-    internal unsafe class BinaryBlockWriter : System.IDisposable
+    internal class BinaryBlockWriter : System.IDisposable
     {
         #region Constructors
         public BinaryBlockWriter(System.IO.Stream output)
@@ -543,8 +543,7 @@ namespace BinaryBlocks
 
         public void WriteGuid(System.Guid value, byte ordinal)
         {
-            byte[] bytes = new byte[sizeof(System.Guid)];
-            fixed (byte* b = bytes) { *((System.Guid*)b) = value; }
+            byte[] bytes = value.ToByteArray();
             _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Guid }).Value);
             _writer.Write(bytes);
         }
@@ -553,10 +552,10 @@ namespace BinaryBlocks
         {
             _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Guid }).Value);
             _writer.Write(values.Count);
-            byte[] bytes = new byte[sizeof(System.Guid)];
+            byte[] bytes = null;
             for (int i = 0; i < values.Count; i++)
             {
-                fixed (byte* b = bytes) { *((System.Guid*)b) = values[i]; }
+                bytes = values[i].ToByteArray();
                 _writer.Write(bytes);
             }
         }
@@ -776,7 +775,7 @@ namespace BinaryBlocks
         #endregion
     }
 
-    internal abstract unsafe class IBinaryBlock
+    internal abstract class IBinaryBlock
     {
         public abstract unsafe void Serialize(System.IO.Stream input);
         public abstract unsafe void Deserialize(System.IO.Stream output);
@@ -796,7 +795,7 @@ namespace System
     /// Structure which represents the date before or after 00-01-01 00:00:00.0000Z with microsecond granuarity. Effective range is roughly 600 million years ranging from 250,000 BCE to 250,000 CE.
     /// </summary>
     /// <remarks>All values of System.Timestamp are in UTC and stored to the nearest microsecond (10^-6 seconds)</remarks>
-    internal unsafe struct Timestamp : System.IComparable, System.IComparable<Timestamp>, System.IEquatable<Timestamp>
+    internal struct Timestamp : System.IComparable, System.IComparable<Timestamp>, System.IEquatable<Timestamp>
     {
         #region Constants
         private const int MinimumYear = -250000000;
