@@ -777,8 +777,8 @@ namespace BinaryBlocks
 
     internal abstract class IBinaryBlock
     {
-        public abstract unsafe void Serialize(System.IO.Stream input);
-        public abstract unsafe void Deserialize(System.IO.Stream output);
+        public abstract void Serialize(System.IO.Stream input);
+        public abstract void Deserialize(System.IO.Stream output);
     }
 
     internal class InvalidBlockTypeException : System.Exception
