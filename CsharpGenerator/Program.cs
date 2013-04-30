@@ -478,12 +478,12 @@ namespace BinaryBlocks.CsharpGenerator
             string type = TextParser.ParseWord(content, ref index);
             TextParser.SeekNext(content, ref index);
             string name = TextParser.ParseWord(content, ref index);
-            byte ordinal = 0;
+            ushort ordinal = 0;
 
             TextParser.SeekAll(content, ref index, '=');
             index++;
             TextParser.SeekNext(content, ref index);
-            if (!Byte.TryParse(TextParser.ParseWord(content, ref index), out ordinal))
+            if (!UInt16.TryParse(TextParser.ParseWord(content, ref index), out ordinal))
                 throw new TextParser.Exception(index, "invalid ordinal");
 
             Block.Member block = new Block.Member(name, type, isList, source, initialIndex) { Ordinal = ordinal };
@@ -694,7 +694,7 @@ namespace BinaryBlocks.CsharpGenerator
                         {
                             constructor.Write("this.{0} = new System.Collections.Generic.List<{1}>();", member.Name, cSharpType);
 
-                            delcarations.Write("private const byte _{0}_ordinal = {1};", member.Name, ordinal);
+                            delcarations.Write("private const ushort _{0}_ordinal = {1};", member.Name, ordinal);
 
                             accessors.Write("public System.Collections.Generic.List<{0}> {1} {{ get; private set; }}", cSharpType, member.Name);
 
@@ -724,7 +724,7 @@ namespace BinaryBlocks.CsharpGenerator
                         else
                         {
                             delcarations.Write("private bool _{0}_exists;", member.Name);
-                            delcarations.Write("private const byte _{0}_ordinal = {1};", member.Name, ordinal);
+                            delcarations.Write("private const ushort _{0}_ordinal = {1};", member.Name, ordinal);
                             delcarations.Write("private {0} _{1}_value;", cSharpType, member.Name);
 
                             accessors.Write("public {0} {1}", cSharpType, member.Name)

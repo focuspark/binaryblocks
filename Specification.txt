@@ -45,7 +45,7 @@ Tag Structure
  {
 	byte0 = Type Identifier
 	byte1 = MemberOrdinal
-	byte2 = reserved
+	byte2 = MemberOrdinal
 	byte3 = reserved
  }
 

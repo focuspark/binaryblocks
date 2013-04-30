@@ -7,16 +7,16 @@ namespace Sample.More
         }
         /* Private */
         private bool _Name_exists;
-        private const byte _Name_ordinal = 1;
+        private const ushort _Name_ordinal = 1;
         private string _Name_value;
         private bool _DoB_exists;
-        private const byte _DoB_ordinal = 2;
+        private const ushort _DoB_ordinal = 2;
         private System.Timestamp _DoB_value;
         private bool _Len_exists;
-        private const byte _Len_ordinal = 3;
+        private const ushort _Len_ordinal = 3;
         private System.TimeSpan _Len_value;
         private bool _Mother_exists;
-        private const byte _Mother_ordinal = 4;
+        private const ushort _Mother_ordinal = 4;
         private Person _Mother_value;
         /* Public */
         public string Name
@@ -116,7 +116,7 @@ namespace Sample.More
             }
         }
 
-        public unsafe override void Deserialize(System.IO.Stream stream)
+        public override void Deserialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();
@@ -154,7 +154,7 @@ namespace Sample.More
             }
         }
 
-        public unsafe override void Serialize(System.IO.Stream stream)
+        public override void Serialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();

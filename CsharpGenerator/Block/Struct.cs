@@ -9,9 +9,9 @@ namespace BinaryBlocks.CsharpGenerator.Block
         public Struct(string name, string source, int index)
             : base(name, source, index)
         {
-            this.Members = new Dictionary<byte, Block.Member>();
+            this.Members = new Dictionary<int, Block.Member>();
         }
 
-        public Dictionary<byte, Block.Member> Members { get; private set; }
+        public Dictionary<int, Block.Member> Members { get; private set; }
     }
 }

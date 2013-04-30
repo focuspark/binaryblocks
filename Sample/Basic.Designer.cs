@@ -8,12 +8,12 @@ namespace Sample
         }
         /* Private */
         private bool _Text_exists;
-        private const byte _Text_ordinal = 1;
+        private const ushort _Text_ordinal = 1;
         private string _Text_value;
         private bool _Value_exists;
-        private const byte _Value_ordinal = 2;
+        private const ushort _Value_ordinal = 2;
         private int _Value_value;
-        private const byte _Values_ordinal = 3;
+        private const ushort _Values_ordinal = 3;
         /* Public */
         public string Text
         {
@@ -65,7 +65,7 @@ namespace Sample
         }
         public System.Collections.Generic.List<float> Values { get; private set; }
 
-        public unsafe override void Deserialize(System.IO.Stream stream)
+        public override void Deserialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();
@@ -99,7 +99,7 @@ namespace Sample
             }
         }
 
-        public unsafe override void Serialize(System.IO.Stream stream)
+        public override void Serialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();

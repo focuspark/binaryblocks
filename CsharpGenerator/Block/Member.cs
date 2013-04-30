@@ -42,6 +42,6 @@ namespace BinaryBlocks.CsharpGenerator.Block
         }
         public BlockType Type { get; set; }
         public string TypeName { get; set; }
-        public byte Ordinal { get; set; }
+        public ushort Ordinal { get; set; }
     }
 }

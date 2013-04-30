@@ -8,13 +8,13 @@ namespace Sample
             this.Branches = new System.Collections.Generic.List<Complex>();
         }
         /* Private */
-        private const byte _Leaves_ordinal = 1;
-        private const byte _Branches_ordinal = 4;
+        private const ushort _Leaves_ordinal = 1;
+        private const ushort _Branches_ordinal = 4;
         /* Public */
         public System.Collections.Generic.List<Basic> Leaves { get; private set; }
         public System.Collections.Generic.List<Complex> Branches { get; private set; }
 
-        public unsafe override void Deserialize(System.IO.Stream stream)
+        public override void Deserialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();
@@ -44,7 +44,7 @@ namespace Sample
             }
         }
 
-        public unsafe override void Serialize(System.IO.Stream stream)
+        public override void Serialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();
