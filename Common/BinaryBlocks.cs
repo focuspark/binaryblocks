@@ -274,19 +274,7 @@ namespace BinaryBlocks
             }
             else
             {
-
-                byte[] buffer = new byte[MaxReadSize];
-                using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
-                {
-                    int read = 0;
-                    while ((read = _stream.Read(buffer, 0, MaxReadSize < length ? MaxReadSize : length)) > 0)
-                    {
-                        memory.Write(buffer, 0, read);
-                        length -= read;
-                    }
-                    memory.Seek(0, System.IO.SeekOrigin.Begin);
-                    value.Deserialize(memory);
-                }
+                value.Deserialize(new StructStream(_stream, length));
                 return value;
             }
         }
@@ -305,18 +293,7 @@ namespace BinaryBlocks
                 }
                 else
                 {
-                    byte[] buffer = new byte[MaxReadSize];
-                    using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
-                    {
-                        int read = 0;
-                        while ((read = _stream.Read(buffer, 0, MaxReadSize < length ? MaxReadSize : length)) > 0)
-                        {
-                            memory.Write(buffer, 0, read);
-                            length -= read;
-                        }
-                        memory.Seek(0, System.IO.SeekOrigin.Begin);
-                        value.Deserialize(memory);
-                    }
+                    value.Deserialize(new StructStream(_stream, length));
                     values.Add(value);
                 }
             }
@@ -771,6 +748,120 @@ namespace BinaryBlocks
         {
             _writer.Dispose();
             _stream.Dispose();
+        }
+        #endregion
+    }
+
+    internal class StructStream : System.IO.Stream
+    {
+        #region Constructors
+        public StructStream(System.IO.Stream stream, int length)
+        {
+            _base = stream;
+            _length = length;
+            _start = stream.Position;
+            _read = 0;
+        }
+        #endregion
+        #region Members
+        public override bool CanRead { get { return _base.CanRead; } }
+        public override bool CanSeek { get { return _base.CanSeek; } }
+        public override bool CanTimeout { get { return _base.CanTimeout; } }
+        public override bool CanWrite { get { return false; } }
+        public override long Length { get { return _length; } }
+        public override long Position
+        {
+            get { return _read; }
+            set { throw new System.NotSupportedException(); }
+        }
+
+        private System.IO.Stream _base;
+        private int _length;
+        private int _read;
+        private long _start;
+        #endregion
+        #region Methods
+        public override System.IAsyncResult BeginRead(byte[] buffer, int offset, int count, System.AsyncCallback callback, object state)
+        {
+            throw new System.NotSupportedException();
+        }
+
+        public override System.IAsyncResult BeginWrite(byte[] buffer, int offset, int count, System.AsyncCallback callback, object state)
+        {
+            throw new System.NotSupportedException();
+        }
+
+        public override void Flush()
+        {
+            throw new System.NotSupportedException();
+        }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            if (_read + offset > _length)
+                return 0;
+            if (_read + offset + count > _length)
+            {
+                count = _read + offset + count - _length;
+            }
+
+            int read = _base.Read(buffer, offset, count);
+            _read += read;
+            return read;
+        }
+
+        public override System.Threading.Tasks.Task<int> ReadAsync(byte[] buffer, int offset, int count, System.Threading.CancellationToken cancellationToken)
+        {
+            throw new System.NotSupportedException();
+        }
+
+        public override int ReadByte()
+        {
+            throw new System.NotSupportedException();
+        }
+
+        public override long Seek(long offset, System.IO.SeekOrigin origin)
+        {
+            int root = 0;
+
+            switch (origin)
+            {
+                case System.IO.SeekOrigin.Begin:
+                    root = 0;
+                    break;
+                case System.IO.SeekOrigin.Current:
+                    root = _read;
+                    break;
+                case System.IO.SeekOrigin.End:
+                    root = _length;
+                    break;
+            }
+
+            long position = 0;
+
+            _base.Seek(offset, origin);
+
+            return position;
+        }
+
+        public override void SetLength(long value)
+        {
+            throw new System.NotSupportedException();
+        }
+
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            throw new System.NotSupportedException();
+        }
+
+        public override System.Threading.Tasks.Task WriteAsync(byte[] buffer, int offset, int count, System.Threading.CancellationToken cancellationToken)
+        {
+            throw new System.NotSupportedException();
+        }
+
+        public override void WriteByte(byte value)
+        {
+            throw new System.NotSupportedException();
         }
         #endregion
     }
