@@ -800,16 +800,6 @@ namespace BinaryBlocks
             return read;
         }
 
-        public override System.Threading.Tasks.Task<int> ReadAsync(byte[] buffer, int offset, int count, System.Threading.CancellationToken cancellationToken)
-        {
-            throw new System.NotSupportedException();
-        }
-
-        public override int ReadByte()
-        {
-            throw new System.NotSupportedException();
-        }
-
         public override long Seek(long offset, System.IO.SeekOrigin origin)
         {
             int root = 0;
@@ -840,16 +830,6 @@ namespace BinaryBlocks
         }
 
         public override void Write(byte[] buffer, int offset, int count)
-        {
-            throw new System.NotSupportedException();
-        }
-
-        public override System.Threading.Tasks.Task WriteAsync(byte[] buffer, int offset, int count, System.Threading.CancellationToken cancellationToken)
-        {
-            throw new System.NotSupportedException();
-        }
-
-        public override void WriteByte(byte value)
         {
             throw new System.NotSupportedException();
         }
