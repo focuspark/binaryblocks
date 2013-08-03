@@ -1,7 +1,7 @@
 Binary Blocks
 Copyright (c) 2013 Jeremy Wyman, released under the Microsoft Public License (Ms-PL)
 
-A system for serializing data to a persistant storage which is both backwards and forewards compatible. Using a form of markup, transient data can be persisted and retrived reliably.
+A system for  data modeling and serializing data to persistant storage which is both backwards and forewards compatible. Using a form of markup, transient data can be persisted and retrived reliably.
 
 Supported Fields
 * type
