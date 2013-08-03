@@ -781,16 +781,6 @@ namespace BinaryBlocks
         private long _start;
         #endregion
         #region Methods
-        public override System.IAsyncResult BeginRead(byte[] buffer, int offset, int count, System.AsyncCallback callback, object state)
-        {
-            throw new System.NotSupportedException();
-        }
-
-        public override System.IAsyncResult BeginWrite(byte[] buffer, int offset, int count, System.AsyncCallback callback, object state)
-        {
-            throw new System.NotSupportedException();
-        }
-
         public override void Flush()
         {
             throw new System.NotSupportedException();
