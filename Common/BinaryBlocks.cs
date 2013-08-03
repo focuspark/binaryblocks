@@ -240,7 +240,7 @@ namespace BinaryBlocks
             else
             {
                 byte[] bytes = _reader.ReadBytes(length);
-                return System.Text.Encoding.UTF7.GetString(bytes);
+                return System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
             }
         }
 
@@ -258,7 +258,7 @@ namespace BinaryBlocks
                 else
                 {
                     byte[] bytes = _reader.ReadBytes(length);
-                    values.Add(System.Text.Encoding.UTF8.GetString(bytes));
+                    values.Add(System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length));
                 }
             }
             return values;
