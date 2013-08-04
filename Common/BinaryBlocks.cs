@@ -274,7 +274,7 @@ namespace BinaryBlocks
             }
             else
             {
-                value.Deserialize(new StructStream(_stream, length));
+                value.Deserialize(new StreamSegment(_stream, length));
                 return value;
             }
         }
@@ -293,7 +293,7 @@ namespace BinaryBlocks
                 }
                 else
                 {
-                    value.Deserialize(new StructStream(_stream, length));
+                    value.Deserialize(new StreamSegment(_stream, length));
                     values.Add(value);
                 }
             }
@@ -628,42 +628,30 @@ namespace BinaryBlocks
             }
             else
             {
-                using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
+                // write in-place if the stream supports seek
+                if (_stream.CanSeek)
                 {
+                    // create a new stream wrapper
+                    StreamSegment stream = new StreamSegment(_stream, 0);
+                    // write a placeholder for the length
+                    _writer.Write((int)0);
                     // serialize the struct into the stream
-                    (value as IBinaryBlock).Serialize(memory);
+                    (value as IBinaryBlock).Serialize(stream);
+                    // move the write cursor back to the placeholder
+                    int length = (int)stream.Position;
+                    _stream.Position -= (length + sizeof(int));
                     // write the size of the struct
-                    int length = (int)memory.Position;
                     _writer.Write(length);
-                    // reset the stream and write content
-                    memory.Seek(0, System.IO.SeekOrigin.Begin);
-                    byte[] buffer = new byte[64 * 1024];
-                    int read = 0;
-                    while ((read = memory.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        _writer.Write(buffer, 0, read);
-                    }
-                }
-            }
-        }
-
-        public void WriteStructList<T>(System.Collections.Generic.List<T> values, ushort ordinal)
-        {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Struct }).Value);
-            _writer.Write(values.Count);
-            byte[] buffer = new byte[64 * 1024];
-            for (int i = 0; i < values.Count; i++)
-            {
-                if (values[i] == null)
-                {
-                    _writer.Write(BinaryBlock.NullExists);
+                    // move the write cursor back to the correct position
+                    _stream.Position += length;
                 }
                 else
                 {
+                    byte[] buffer = new byte[64 * 1024];
                     using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
                     {
                         // serialize the struct into the stream
-                        (values[i] as IBinaryBlock).Serialize(memory);
+                        (value as IBinaryBlock).Serialize(memory);
                         // write the size of the struct
                         int length = (int)memory.Position;
                         _writer.Write(length);
@@ -673,6 +661,58 @@ namespace BinaryBlocks
                         while ((read = memory.Read(buffer, 0, buffer.Length)) > 0)
                         {
                             _writer.Write(buffer, 0, read);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void WriteStructList<T>(System.Collections.Generic.List<T> values, ushort ordinal)
+        {
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Struct }).Value);
+            _writer.Write(values.Count);
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (values[i] == null)
+                {
+                    _writer.Write(BinaryBlock.NullExists);
+                }
+                else
+                {
+                    // write in-place if the stream supports seek
+                    if (_stream.CanSeek)
+                    {
+                        // create a new stream wrapper
+                        StreamSegment stream = new StreamSegment(_stream, 0);
+                        // write a placeholder for the length
+                        _writer.Write((int)0);
+                        // serialize the struct into the stream
+                        (values[i] as IBinaryBlock).Serialize(stream);
+                        // move the write cursor back to the placeholder
+                        int length = (int)stream.Position;
+                        _stream.Position -= (length + sizeof(int));
+                        // write the size of the struct
+                        _writer.Write(length);
+                        // move the write cursor back to the correct position
+                        _stream.Position += length;
+                    }
+                    else
+                    {
+                        byte[] buffer = new byte[64 * 1024];
+                        using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
+                        {
+                            // serialize the struct into the stream
+                            (values[i] as IBinaryBlock).Serialize(memory);
+                            // write the size of the struct
+                            int length = (int)memory.Position;
+                            _writer.Write(length);
+                            // reset the stream and write content
+                            memory.Seek(0, System.IO.SeekOrigin.Begin);
+                            int read = 0;
+                            while ((read = memory.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                _writer.Write(buffer, 0, read);
+                            }
                         }
                     }
                 }
@@ -752,32 +792,32 @@ namespace BinaryBlocks
         #endregion
     }
 
-    internal class StructStream : System.IO.Stream
+    internal class StreamSegment : System.IO.Stream
     {
         #region Constructors
-        public StructStream(System.IO.Stream stream, int length)
+        public StreamSegment(System.IO.Stream stream, int length)
         {
             _base = stream;
             _length = length;
             _start = stream.Position;
-            _read = 0;
+            _position = 0;
         }
         #endregion
         #region Members
         public override bool CanRead { get { return _base.CanRead; } }
         public override bool CanSeek { get { return _base.CanSeek; } }
         public override bool CanTimeout { get { return _base.CanTimeout; } }
-        public override bool CanWrite { get { return false; } }
+        public override bool CanWrite { get { return _base.CanWrite; } }
         public override long Length { get { return _length; } }
         public override long Position
         {
-            get { return _read; }
+            get { return _position; }
             set { throw new System.NotSupportedException(); }
         }
 
         private System.IO.Stream _base;
         private int _length;
-        private int _read;
+        private int _position;
         private long _start;
         #endregion
         #region Methods
@@ -788,15 +828,15 @@ namespace BinaryBlocks
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (_read + offset > _length)
+            if (_position + offset > _length)
                 return 0;
-            if (_read + offset + count > _length)
+            if (_position + offset + count > _length)
             {
-                count = _read + offset + count - _length;
+                count = _position + offset + count - _length;
             }
 
             int read = _base.Read(buffer, offset, count);
-            _read += read;
+            _position += read;
             return read;
         }
 
@@ -810,7 +850,7 @@ namespace BinaryBlocks
                     root = 0;
                     break;
                 case System.IO.SeekOrigin.Current:
-                    root = _read;
+                    root = _position;
                     break;
                 case System.IO.SeekOrigin.End:
                     root = _length;
@@ -831,7 +871,8 @@ namespace BinaryBlocks
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            throw new System.NotSupportedException();
+            _base.Write(buffer, offset, count);
+            _position += count;
         }
         #endregion
     }
