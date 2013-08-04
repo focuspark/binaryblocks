@@ -41,6 +41,22 @@ namespace BinaryBlocks
         Enum = 0x0E,
         Struct = 0x0F,
         List = 0x80,
+        /* list of types */
+        ByteList = Byte | List,
+        CharList = Char | List,
+        SintList = Sint | List,
+        UintList = Uint | List,
+        SlongList = Slong | List,
+        UlongList = Ulong | List,
+        SingleList = Single | List,
+        DoubleList = Double | List,
+        StringList = String | List,
+        TimestampList = Timestamp | List,
+        TimespanList = Timespan | List,
+        BlobList = Blob | List,
+        GuidList = Guid | List,
+        EnumList = Enum | List,
+        StructList = Struct | List,
     }
 
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit, Size = 4)]
@@ -811,8 +827,8 @@ namespace BinaryBlocks
         public override long Length { get { return _length; } }
         public override long Position
         {
-            get { return _position; }
-            set { throw new System.NotSupportedException(); }
+            get { return (int)_position; }
+            set { _position = (int)value; }
         }
 
         private System.IO.Stream _base;

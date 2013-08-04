@@ -115,7 +115,7 @@ namespace BinaryBlocks.Viewer
                         {
                             node[0] = String.Format("#{0}#<struct>", block.Ordinal);
                             int length = blockReader.ReadSint();
-                            FillNodeCollection(node.Nodes, new StructStream(stream, length));
+                            FillNodeCollection(node.Nodes, new StreamSegment(stream, length));
                         } break;
                     case BlockType.StructList:
                         {
@@ -124,7 +124,7 @@ namespace BinaryBlocks.Viewer
                             for (int i = 0; i < count; i++)
                             {
                                 int length = blockReader.ReadSint();
-                                FillNodeCollection(node.Nodes, new StructStream(stream, length));
+                                FillNodeCollection(node.Nodes, new StreamSegment(stream, length));
                             }
                         } break;
                     case BlockType.Timespan:
