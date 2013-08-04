@@ -811,8 +811,8 @@ namespace BinaryBlocks
         public override long Length { get { return _length; } }
         public override long Position
         {
-            get { return _position; }
-            set { throw new System.NotSupportedException(); }
+            get { return (int)_position; }
+            set { _position = (int)value; }
         }
 
         private System.IO.Stream _base;
