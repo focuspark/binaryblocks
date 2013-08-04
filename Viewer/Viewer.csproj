@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,16 @@
     <Compile Include="..\Common\BinaryBlocks.cs">
       <Link>BinaryBlocks.cs</Link>
     </Compile>
+    <Compile Include="CommonTools\Tracing.cs" />
+    <Compile Include="CommonTools\TreeListColumn.cs" />
+    <Compile Include="CommonTools\TreeListColumn.Design.cs" />
+    <Compile Include="CommonTools\TreeListNode.cs" />
+    <Compile Include="CommonTools\TreeListOptions.cs" />
+    <Compile Include="CommonTools\TreeListPainter.cs" />
+    <Compile Include="CommonTools\TreeListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommonTools\Util.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
