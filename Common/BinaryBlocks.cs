@@ -41,22 +41,6 @@ namespace BinaryBlocks
         Enum = 0x0E,
         Struct = 0x0F,
         List = 0x80,
-
-        ByteList = Byte | List,
-        CharList = Char | List,
-        SintList = Sint | List,
-        UintList = Uint | List,
-        SlongList = Slong | List,
-        UlongList = Ulong | List,
-        SingleList = Single | List,
-        DoubleList = Double | List,
-        StringList = String | List,
-        TimestampList = Timestamp | List,
-        TimespanList = Timespan | List,
-        BlobList = Blob | List,
-        GuidList = Guid | List,
-        EnumList = Enum | List,
-        StructList = Struct | List,
     }
 
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit, Size = 4)]
@@ -290,7 +274,7 @@ namespace BinaryBlocks
             }
             else
             {
-                value.Deserialize(new StructStream(_stream, length));
+                value.Deserialize(new StreamSegment(_stream, length));
                 return value;
             }
         }
@@ -309,7 +293,7 @@ namespace BinaryBlocks
                 }
                 else
                 {
-                    value.Deserialize(new StructStream(_stream, length));
+                    value.Deserialize(new StreamSegment(_stream, length));
                     values.Add(value);
                 }
             }
@@ -648,7 +632,7 @@ namespace BinaryBlocks
                 if (_stream.CanSeek)
                 {
                     // create a new stream wrapper
-                    StructStream stream = new StructStream(_stream, 0);
+                    StreamSegment stream = new StreamSegment(_stream, 0);
                     // write a placeholder for the length
                     _writer.Write((int)0);
                     // serialize the struct into the stream
@@ -699,7 +683,7 @@ namespace BinaryBlocks
                     if (_stream.CanSeek)
                     {
                         // create a new stream wrapper
-                        StructStream stream = new StructStream(_stream, 0);
+                        StreamSegment stream = new StreamSegment(_stream, 0);
                         // write a placeholder for the length
                         _writer.Write((int)0);
                         // serialize the struct into the stream
@@ -808,10 +792,10 @@ namespace BinaryBlocks
         #endregion
     }
 
-    internal class StructStream : System.IO.Stream
+    internal class StreamSegment : System.IO.Stream
     {
         #region Constructors
-        public StructStream(System.IO.Stream stream, int length)
+        public StreamSegment(System.IO.Stream stream, int length)
         {
             _base = stream;
             _length = length;
@@ -827,8 +811,8 @@ namespace BinaryBlocks
         public override long Length { get { return _length; } }
         public override long Position
         {
-            get { return (long)_position; }
-            set { _position = (int)value; }
+            get { return _position; }
+            set { throw new System.NotSupportedException(); }
         }
 
         private System.IO.Stream _base;
@@ -887,8 +871,8 @@ namespace BinaryBlocks
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            _position += count;
             _base.Write(buffer, offset, count);
+            _position += count;
         }
         #endregion
     }
