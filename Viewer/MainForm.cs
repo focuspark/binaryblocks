@@ -16,11 +16,6 @@ namespace BinaryBlocks.Viewer
         public MainForm()
         {
             InitializeComponent();
-
-            using (FileStream stream = File.Open("complex.b3", FileMode.Open))
-            {
-                FillNodeCollection(dataTreeview.Nodes, stream);
-            }
         }
 
         private void FillNodeCollection(CommonTools.NodeCollection collection, Stream stream)
@@ -52,58 +47,82 @@ namespace BinaryBlocks.Viewer
                     case BlockType.BlobList:
                         {
                             int count = blockReader.ReadSint();
-                            node[0] = String.Format("#{0}#<blob[]> = {1}", block.Ordinal, count);
+                            node[0] = block.Ordinal;
+                            node[1] = "<blob[]>";
+                            node[2] = "count = " + count;
                             for (int i = 0; i < count; i++)
                             {
                                 CommonTools.Node child = new CommonTools.Node();
                                 int length = binaryReader.ReadInt32();
-                                child[0] = String.Format("#{0}#<blob> = [{1}]", block.Ordinal, length);
+                                child[0] = i;
+                                child[1] = "<blob>";
+                                child[2] = "length = " + length;
                                 binaryReader.BaseStream.Position += length;
                                 node.Nodes.Add(child);
                             }
                         } break;
                     case BlockType.Byte:
                         {
-                            node[0] = String.Format("#{0}#<byte> = {1}", block.Ordinal, blockReader.ReadByte());
+                            node[0] = block.Ordinal;
+                            node[1] = "<byte>";
+                            node[2] = blockReader.ReadByte();
                         } break;
                     case BlockType.Char:
                         {
-                            node[0] = String.Format("#{0}#<char> = {1}", block.Ordinal, blockReader.ReadChar());
+                            node[0] = block.Ordinal;
+                            node[1] = "<char>";
+                            node[2] = blockReader.ReadChar();
                         } break;
                     case BlockType.Double:
                         {
-                            node[0] = String.Format("#{0}#<double> = {1}", block.Ordinal, blockReader.ReadDouble());
+                            node[0] = block.Ordinal;
+                            node[1] = "<double>";
+                            node[2] = blockReader.ReadDouble();
                         } break;
                     case BlockType.Enum:
                         {
-                            node[0] = String.Format("#{0}#<enum> = {1}", block.Ordinal, blockReader.ReadUint());
+                            node[0] = block.Ordinal;
+                            node[1] = "<enum>";
+                            node[2] = blockReader.ReadSint();
                         } break;
                     case BlockType.Guid:
                         {
-                            node[0] = String.Format("#{0}#<guid> = {1:N}", block.Ordinal, blockReader.ReadGuid());
+                            node[0] = block.Ordinal;
+                            node[1] = "<guid>";
+                            node[2] = blockReader.ReadGuid();
                         } break;
                     case BlockType.Single:
                         {
-                            node[0] = String.Format("#{0}#<single> = {1}", block.Ordinal, blockReader.ReadSingle());
+                            node[0] = block.Ordinal;
+                            node[1] = "<single>";
+                            node[2] = blockReader.ReadSingle();
                         } break;
                     case BlockType.SingleList:
                         {
                             int count = blockReader.ReadSint();
-                            node[0] = String.Format("#{0}#<single[]> = {1}", block.Ordinal, count);
+                            node[0] = block.Ordinal;
+                            node[1] = "<single[]>";
+                            node[2] = "count = " + count;
                             for (int i = 0; i < count; i++)
                             {
                                 CommonTools.Node child = new CommonTools.Node();
-                                child[0] = String.Format("#{0}#<single> = {1}", block.Ordinal, blockReader.ReadSingle());
+                                child[0] = block.Ordinal;
+                                child[1] = "<single>";
+                                child[2] = blockReader.ReadSingle();
                                 node.Nodes.Add(child);
                             }
                         } break;
                     case BlockType.Sint:
                         {
-                            node[0] = String.Format("#{0}#<sint> = {1}", block.Ordinal, blockReader.ReadSint());
+                            node[0] = block.Ordinal;
+                            node[1] = "<sint>";
+                            node[2] = blockReader.ReadSint();
                         } break;
                     case BlockType.Slong:
                         {
-                            node[0] = String.Format("#{0}#<slong> = {1}", block.Ordinal, blockReader.ReadSlong());
+                            node[0] = block.Ordinal;
+                            node[1] = "<slong>";
+                            node[2] = blockReader.ReadSlong();
                         } break;
                     case BlockType.String:
                         {
@@ -113,14 +132,18 @@ namespace BinaryBlocks.Viewer
                         } break;
                     case BlockType.Struct:
                         {
-                            node[0] = String.Format("#{0}#<struct>", block.Ordinal);
+                            node[0] = block.Ordinal;
+                            node[1] = "<struct>";
+                            node[2] = "...";
                             int length = blockReader.ReadSint();
                             FillNodeCollection(node.Nodes, new StreamSegment(stream, length));
                         } break;
                     case BlockType.StructList:
                         {
                             int count = blockReader.ReadSint();
-                            node[0] = String.Format("#{0}#<struct[]> = {1}", block.Ordinal, count);
+                            node[0] = block.Ordinal;
+                            node[1] = "<struct[]>";
+                            node[2] = "count = " + count;
                             for (int i = 0; i < count; i++)
                             {
                                 int length = blockReader.ReadSint();
@@ -129,19 +152,27 @@ namespace BinaryBlocks.Viewer
                         } break;
                     case BlockType.Timespan:
                         {
-                            node[0] = String.Format("#{0}#<timespan> = {1}", block.Ordinal, blockReader.ReadTimespan());
+                            node[0] = block.Ordinal;
+                            node[1] = "<timespan>";
+                            node[2] = blockReader.ReadTimespan();
                         } break;
                     case BlockType.Timestamp:
                         {
-                            node[0] = String.Format("#{0}#<timestamp> = {1}", block.Ordinal, blockReader.ReadTimestamp());
+                            node[0] = block.Ordinal;
+                            node[1] = "<timestamp>";
+                            node[2] = blockReader.ReadTimestamp();
                         } break;
                     case BlockType.Uint:
                         {
-                            node[0] = String.Format("#{0}#<uint> = {1}", block.Ordinal, blockReader.ReadUint());
+                            node[0] = block.Ordinal;
+                            node[1] = "<uint>";
+                            node[2] = blockReader.ReadUint();
                         } break;
                     case BlockType.Ulong:
                         {
-                            node[0] = String.Format("#{0}#<ulong> = {1}", block.Ordinal, blockReader.ReadUlong());
+                            node[0] = block.Ordinal;
+                            node[1] = "<ulong>";
+                            node[2] = blockReader.ReadUlong();
                         } break;
                     case BlockType.Unknown:
                     default:
@@ -152,7 +183,36 @@ namespace BinaryBlocks.Viewer
 
         private void FileOpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (_openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.toolStripStatusLabel1.Text = "loading file...";
 
+                string path = _openFileDialog.FileName;
+                FileInfo info = new FileInfo(path);
+
+                this.toolStripStatusLabel2.Text = "File: " + info.Name;
+                this.toolStripStatusLabel3.Text = "Size: " + GetFileSize(info.Length);
+
+                _dataTreeview.Nodes.Clear();
+                using (FileStream stream = File.Open(path, FileMode.Open))
+                {
+                    this.FillNodeCollection(_dataTreeview.Nodes, stream);
+                }
+
+                this.toolStripStatusLabel1.Text = "ready";
+            }
+        }
+
+        private string GetFileSize(long bytes)
+        {
+            if (bytes < 1024)
+                return String.Format("{0} B", bytes);
+            else if (bytes < 1024 * 1024)
+                return String.Format("{0} KB", bytes / 1024);
+            else if (bytes < 1024 * 1024 * 1024)
+                return String.Format("{0} MB", bytes / (1024 * 1024));
+            else 
+                return String.Format("{0} GB", bytes / (1024 * 1024 * 1024));
         }
     }
 }
