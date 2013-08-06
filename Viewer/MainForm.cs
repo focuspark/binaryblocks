@@ -255,7 +255,7 @@ namespace BinaryBlocks.Viewer
                         {
                             node[0] = block.Ordinal;
                             node[1] = "<string>";
-                            node[2] = blockReader.ReadString();
+                            node[2] = "\"" + blockReader.ReadString() + "\"";
                         } break;
                     case BlockType.StringList:
                         {
@@ -268,7 +268,7 @@ namespace BinaryBlocks.Viewer
                                 CommonTools.Node child = new CommonTools.Node();
                                 child[0] = i;
                                 child[1] = "<string>";
-                                child[2] = blockReader.ReadString();
+                                child[2] = "\"" + blockReader.ReadString() + "\"";
                                 node.Nodes.Add(child);
                             }
                         } break;
