@@ -89,11 +89,41 @@ namespace BinaryBlocks.Viewer
                             node[1] = "<byte>";
                             node[2] = blockReader.ReadByte();
                         } break;
+                    case BlockType.ByteList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<byte[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<byte>";
+                                child[2] = blockReader.ReadByte();
+                                node.Nodes.Add(child);
+                            }
+                        } break;
                     case BlockType.Char:
                         {
                             node[0] = block.Ordinal;
                             node[1] = "<char>";
                             node[2] = blockReader.ReadChar();
+                        } break;
+                    case BlockType.CharList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<char[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<char>";
+                                child[2] = blockReader.ReadChar();
+                                node.Nodes.Add(child);
+                            }
                         } break;
                     case BlockType.Double:
                         {
@@ -101,17 +131,62 @@ namespace BinaryBlocks.Viewer
                             node[1] = "<double>";
                             node[2] = blockReader.ReadDouble();
                         } break;
+                    case BlockType.DoubleList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<double[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<double>";
+                                child[2] = blockReader.ReadDouble();
+                                node.Nodes.Add(child);
+                            }
+                        } break;
                     case BlockType.Enum:
                         {
                             node[0] = block.Ordinal;
                             node[1] = "<enum>";
                             node[2] = blockReader.ReadSint();
                         } break;
+                    case BlockType.EnumList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<enum[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<enum>";
+                                child[2] = blockReader.ReadSint();
+                                node.Nodes.Add(child);
+                            }
+                        } break;
                     case BlockType.Guid:
                         {
                             node[0] = block.Ordinal;
                             node[1] = "<guid>";
                             node[2] = blockReader.ReadGuid();
+                        } break;
+                    case BlockType.GuidList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<guid[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<guid>";
+                                child[2] = blockReader.ReadGuid();
+                                node.Nodes.Add(child);
+                            }
                         } break;
                     case BlockType.Single:
                         {
@@ -140,17 +215,62 @@ namespace BinaryBlocks.Viewer
                             node[1] = "<sint>";
                             node[2] = blockReader.ReadSint();
                         } break;
+                    case BlockType.SintList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<sint[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<sint>";
+                                child[2] = blockReader.ReadSint();
+                                node.Nodes.Add(child);
+                            }
+                        } break;
                     case BlockType.Slong:
                         {
                             node[0] = block.Ordinal;
                             node[1] = "<slong>";
                             node[2] = blockReader.ReadSlong();
                         } break;
+                    case BlockType.SlongList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<slong[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<slong>";
+                                child[2] = blockReader.ReadSlong();
+                                node.Nodes.Add(child);
+                            }
+                        } break;
                     case BlockType.String:
                         {
                             node[0] = block.Ordinal;
                             node[1] = "<string>";
                             node[2] = blockReader.ReadString();
+                        } break;
+                    case BlockType.StringList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<string[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<string>";
+                                child[2] = blockReader.ReadString();
+                                node.Nodes.Add(child);
+                            }
                         } break;
                     case BlockType.Struct:
                         {
@@ -169,7 +289,7 @@ namespace BinaryBlocks.Viewer
                             for (int i = 0; i < count; i++)
                             {
                                 int length = blockReader.ReadSint();
-                                FillNodeCollection(node.Nodes, new StreamSegment(stream, length));
+                                this.FillNodeCollection(node.Nodes, new StreamSegment(stream, length));
                             }
                         } break;
                     case BlockType.Timespan:
@@ -178,11 +298,41 @@ namespace BinaryBlocks.Viewer
                             node[1] = "<timespan>";
                             node[2] = blockReader.ReadTimespan();
                         } break;
+                    case BlockType.TimespanList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<timespan[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<timespan>";
+                                child[2] = blockReader.ReadTimespan();
+                                node.Nodes.Add(child);
+                            }
+                        } break;
                     case BlockType.Timestamp:
                         {
                             node[0] = block.Ordinal;
                             node[1] = "<timestamp>";
                             node[2] = blockReader.ReadTimestamp();
+                        } break;
+                    case BlockType.TimestampList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<timestamp[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<timestamp>";
+                                child[2] = blockReader.ReadTimestamp();
+                                node.Nodes.Add(child);
+                            }
                         } break;
                     case BlockType.Uint:
                         {
@@ -190,11 +340,41 @@ namespace BinaryBlocks.Viewer
                             node[1] = "<uint>";
                             node[2] = blockReader.ReadUint();
                         } break;
+                    case BlockType.UintList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<uint[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<uint>";
+                                child[2] = blockReader.ReadUint();
+                                node.Nodes.Add(child);
+                            }
+                        } break;
                     case BlockType.Ulong:
                         {
                             node[0] = block.Ordinal;
                             node[1] = "<ulong>";
                             node[2] = blockReader.ReadUlong();
+                        } break;
+                    case BlockType.UlongList:
+                        {
+                            int count = blockReader.ReadSint();
+                            node[0] = block.Ordinal;
+                            node[1] = "<ulong[]>";
+                            node[2] = "count = " + count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                CommonTools.Node child = new CommonTools.Node();
+                                child[0] = i;
+                                child[1] = "<ulong>";
+                                child[2] = blockReader.ReadUlong();
+                                node.Nodes.Add(child);
+                            }
                         } break;
                     case BlockType.Unknown:
                     default:
@@ -233,7 +413,7 @@ namespace BinaryBlocks.Viewer
                 return String.Format("{0} KB", bytes / 1024);
             else if (bytes < 1024 * 1024 * 1024)
                 return String.Format("{0} MB", bytes / (1024 * 1024));
-            else 
+            else
                 return String.Format("{0} GB", bytes / (1024 * 1024 * 1024));
         }
     }
