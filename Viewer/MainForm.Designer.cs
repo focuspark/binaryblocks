@@ -32,6 +32,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.decodeBase64ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -56,7 +57,8 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem});
+            this.openToolStripMenuItem,
+            this.decodeBase64ToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
             this.toolStripMenuItem1.Text = "File";
@@ -64,9 +66,17 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.FileOpenToolStripMenuItem_Click);
+            // 
+            // openZippedToolStripMenuItem
+            // 
+            this.decodeBase64ToolStripMenuItem.Name = "decodeBase64ToolStripMenuItem";
+            this.decodeBase64ToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.decodeBase64ToolStripMenuItem.Text = "Decode Base64";
+            this.decodeBase64ToolStripMenuItem.Click += new System.EventHandler(this.DecodeBase64ToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -97,9 +107,9 @@
             // 
             // _dataTreeview
             // 
-            this._dataTreeview.Columns.Add(new CommonTools.TreeListColumn("datacolumn0", "Field") { AutoSize = true, AutoSizeMinSize = 0, AutoSizeRatio = 1, Width = 75 });
-            this._dataTreeview.Columns.Add(new CommonTools.TreeListColumn("datacolumn1", "Type") { AutoSize = true, AutoSizeMinSize = 0, AutoSizeRatio = 1, Width = 75 });
-            this._dataTreeview.Columns.Add(new CommonTools.TreeListColumn("datacolumn2", "Value") { AutoSize = true, AutoSizeMinSize = 0, AutoSizeRatio = 2, Width = 150 });
+            this._dataTreeview.Columns.Add(new CommonTools.TreeListColumn("datafield0", "Field") { AutoSize = true, AutoSizeMinSize = 0, AutoSizeRatio = 1, Width = 50 });
+            this._dataTreeview.Columns.Add(new CommonTools.TreeListColumn("datafield1", "Type") { AutoSize = true, AutoSizeMinSize = 0, AutoSizeRatio = 1, Width = 50 });
+            this._dataTreeview.Columns.Add(new CommonTools.TreeListColumn("datafield2", "Value") { AutoSize = true, AutoSizeMinSize = 0, AutoSizeRatio = 3, Width = 150 });
             this._dataTreeview.Cursor = System.Windows.Forms.Cursors.Arrow;
             this._dataTreeview.Dock = System.Windows.Forms.DockStyle.Fill;
             this._dataTreeview.Images = null;
@@ -146,6 +156,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripMenuItem decodeBase64ToolStripMenuItem;
     }
 }
 

@@ -383,6 +383,18 @@ namespace BinaryBlocks.Viewer
             }
         }
 
+        private string GetFileSize(long bytes)
+        {
+            if (bytes < 1024)
+                return String.Format("{0} B", bytes);
+            else if (bytes < 1024 * 1024)
+                return String.Format("{0} KB", bytes / 1024);
+            else if (bytes < 1024 * 1024 * 1024)
+                return String.Format("{0} MB", bytes / (1024 * 1024));
+            else
+                return String.Format("{0} GB", bytes / (1024 * 1024 * 1024));
+        }
+
         private void FileOpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -405,16 +417,14 @@ namespace BinaryBlocks.Viewer
             }
         }
 
-        private string GetFileSize(long bytes)
+        private void DecodeBase64ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (bytes < 1024)
-                return String.Format("{0} B", bytes);
-            else if (bytes < 1024 * 1024)
-                return String.Format("{0} KB", bytes / 1024);
-            else if (bytes < 1024 * 1024 * 1024)
-                return String.Format("{0} MB", bytes / (1024 * 1024));
-            else
-                return String.Format("{0} GB", bytes / (1024 * 1024 * 1024));
+            Form window = new TextForm((Stream stream) =>
+            {
+                _dataTreeview.Nodes.Clear();
+                this.FillNodeCollection(_dataTreeview.Nodes, stream);
+            });
+            window.Show(this);
         }
     }
 }
