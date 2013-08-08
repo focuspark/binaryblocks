@@ -53,7 +53,7 @@ namespace BinaryBlocks
         public BlockType Type;
         [System.Runtime.InteropServices.FieldOffset(1)]
         public ushort Ordinal;
-        [System.Runtime.InteropServices.FieldOffset(2)]
+        [System.Runtime.InteropServices.FieldOffset(3)]
         public byte Reserved;
         [System.Runtime.InteropServices.FieldOffset(0)]
         public uint Value;
@@ -877,10 +877,10 @@ namespace BinaryBlocks
         #endregion
     }
 
-    internal abstract class IBinaryBlock
+    internal interface IBinaryBlock
     {
-        public abstract void Serialize(System.IO.Stream input);
-        public abstract void Deserialize(System.IO.Stream output);
+        void Serialize(System.IO.Stream input);
+        void Deserialize(System.IO.Stream output);
     }
 
     internal class InvalidBlockTypeException : System.Exception

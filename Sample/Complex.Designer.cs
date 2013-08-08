@@ -14,7 +14,7 @@ namespace Sample
         public System.Collections.Generic.List<Basic> Leaves { get; private set; }
         public System.Collections.Generic.List<Complex> Branches { get; private set; }
 
-        public override void Deserialize(System.IO.Stream stream)
+        public void Deserialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();
@@ -44,7 +44,7 @@ namespace Sample
             }
         }
 
-        public override void Serialize(System.IO.Stream stream)
+        public void Serialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();
