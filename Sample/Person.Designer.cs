@@ -116,7 +116,7 @@ namespace Sample.More
             }
         }
 
-        public override void Deserialize(System.IO.Stream stream)
+        public void Deserialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();
@@ -154,7 +154,7 @@ namespace Sample.More
             }
         }
 
-        public override void Serialize(System.IO.Stream stream)
+        public void Serialize(System.IO.Stream stream)
         {
             if (stream == null)
                 throw new System.ArgumentNullException();
