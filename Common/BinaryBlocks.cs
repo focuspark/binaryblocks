@@ -47,7 +47,7 @@ namespace BinaryBlocks
     internal struct BinaryBlock
     {
         public const int NullExists = -1;
-        public static BinaryBlock Empty = new BinaryBlock() { };
+        public static readonly BinaryBlock Empty = new BinaryBlock() { Value = 0 };
 
         [System.Runtime.InteropServices.FieldOffset(0)]
         public BlockType Type;
@@ -62,7 +62,7 @@ namespace BinaryBlocks
     internal class BinaryBlockReader : System.IDisposable
     {
         #region Constants
-        const int MaxReadSize = 64 * 1024; // 64kb
+        const int BufferSize = 64 * 1024; // 64kb
         #endregion
         #region Constructors
         public BinaryBlockReader(System.IO.Stream input)
@@ -423,6 +423,9 @@ namespace BinaryBlocks
 
     internal class BinaryBlockWriter : System.IDisposable
     {
+        #region Constants
+        const int BufferSize = 64 * 1024; // 64kb
+        #endregion
         #region Constructors
         public BinaryBlockWriter(System.IO.Stream output)
         {
@@ -454,7 +457,7 @@ namespace BinaryBlocks
 
         public void WriteBlobList(System.Collections.Generic.List<byte[]> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Byte }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.BlobList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -478,7 +481,7 @@ namespace BinaryBlocks
 
         public void WriteByteList(System.Collections.Generic.List<byte> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Byte }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.ByteList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -494,7 +497,7 @@ namespace BinaryBlocks
 
         public void WriteCharList(System.Collections.Generic.List<char> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Char }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.CharList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -510,7 +513,7 @@ namespace BinaryBlocks
 
         public void WriteDoubleList(System.Collections.Generic.List<double> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Double }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.DoubleList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -527,7 +530,7 @@ namespace BinaryBlocks
 
         public void WriteGuidList(System.Collections.Generic.List<System.Guid> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Guid }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.GuidList }).Value);
             _writer.Write(values.Count);
             byte[] bytes = null;
             for (int i = 0; i < values.Count; i++)
@@ -545,7 +548,7 @@ namespace BinaryBlocks
 
         public void WriteSingleList(System.Collections.Generic.List<float> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Single }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.SingleList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -561,7 +564,7 @@ namespace BinaryBlocks
 
         public void WriteSintList(System.Collections.Generic.List<int> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Sint }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.SintList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -577,7 +580,7 @@ namespace BinaryBlocks
 
         public void WriteSlongList(System.Collections.Generic.List<long> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Slong }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.SlongList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -602,7 +605,7 @@ namespace BinaryBlocks
 
         public void WriteStringList(System.Collections.Generic.List<System.String> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.String }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.StringList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -647,7 +650,7 @@ namespace BinaryBlocks
                 }
                 else
                 {
-                    byte[] buffer = new byte[64 * 1024];
+                    byte[] buffer = new byte[BufferSize];
                     using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
                     {
                         // serialize the struct into the stream
@@ -669,7 +672,7 @@ namespace BinaryBlocks
 
         public void WriteStructList<T>(System.Collections.Generic.List<T> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Struct }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.StructList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -698,7 +701,7 @@ namespace BinaryBlocks
                     }
                     else
                     {
-                        byte[] buffer = new byte[64 * 1024];
+                        byte[] buffer = new byte[BufferSize];
                         using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
                         {
                             // serialize the struct into the stream
@@ -727,7 +730,7 @@ namespace BinaryBlocks
 
         public void WriteTimespanList(System.Collections.Generic.List<System.TimeSpan> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Timespan }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.TimespanList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -743,7 +746,7 @@ namespace BinaryBlocks
 
         public void WriteTimestampList(System.Collections.Generic.List<System.Timestamp> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Double }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.TimestampList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -759,7 +762,7 @@ namespace BinaryBlocks
 
         public void WriteUintList(System.Collections.Generic.List<uint> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Uint }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.UintList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -775,7 +778,7 @@ namespace BinaryBlocks
 
         public void WriteUlongList(System.Collections.Generic.List<ulong> values, ushort ordinal)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.List | BlockType.Ulong }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.UlongList }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -1336,7 +1339,6 @@ namespace System
         /// </summary>
         /// <param name="that">A value to compare with this value.</param>
         /// <returns>A value that indicates the relative order of the values being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the other parameter. Zero This object is equal to other. Greater than zero This object is greater than other.</returns>
-        [System.Security.SecurityCritical]
         int System.IComparable<System.Timestamp>.CompareTo(System.Timestamp that)
         {
             // Timestamp is a struct, no need to check null first
