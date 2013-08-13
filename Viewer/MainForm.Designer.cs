@@ -71,7 +71,7 @@
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.FileOpenToolStripMenuItem_Click);
             // 
-            // openZippedToolStripMenuItem
+            // decodeBase64ToolStripMenuItem
             // 
             this.decodeBase64ToolStripMenuItem.Name = "decodeBase64ToolStripMenuItem";
             this.decodeBase64ToolStripMenuItem.Size = new System.Drawing.Size(153, 22);

@@ -288,8 +288,13 @@ namespace BinaryBlocks.Viewer
                             node[2] = "count = " + count;
                             for (int i = 0; i < count; i++)
                             {
+                                CommonTools.Node structNode = new CommonTools.Node();
+                                structNode[0] = block.Ordinal;
+                                structNode[1] = "<struct>";
+                                structNode[2] = "...";
+                                node.Nodes.Add(structNode);
                                 int length = blockReader.ReadSint();
-                                this.FillNodeCollection(node.Nodes, new StreamSegment(stream, length));
+                                this.FillNodeCollection(structNode.Nodes, new StreamSegment(stream, length));
                             }
                         } break;
                     case BlockType.Timespan:
