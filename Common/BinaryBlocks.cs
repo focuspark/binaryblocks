@@ -41,6 +41,22 @@ namespace BinaryBlocks
         Enum = 0x0E,
         Struct = 0x0F,
         List = 0x80,
+        // List of Types
+        ByteList = 0x81,
+        CharList = 0x82,
+        SintList = 0x83,
+        UintList = 0x84,
+        SlongList = 0x85,
+        UlongList = 0x86,
+        SingleList = 0x87,
+        DoubleList = 0x88,
+        StringList = 0x89,
+        TimestampList = 0x8A,
+        TimespanList = 0x8B,
+        BlobList = 0x8C,
+        GuidList = 0x8D,
+        EnumList = 0x8E,
+        StructList = 0x8F,
     }
 
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit, Size = 4)]
