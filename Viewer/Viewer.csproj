@@ -54,6 +54,12 @@
     <Compile Include="..\Common\BinaryBlocks.cs">
       <Link>BinaryBlocks.cs</Link>
     </Compile>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="CommonTools\Tracing.cs" />
     <Compile Include="CommonTools\TreeListColumn.cs" />
     <Compile Include="CommonTools\TreeListColumn.Design.cs" />
@@ -78,6 +84,9 @@
     <Compile Include="TextForm.Designer.cs">
       <DependentUpon>TextForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -431,5 +431,15 @@ namespace BinaryBlocks.Viewer
             });
             window.Show(this);
         }
+
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new AboutBox().Show(this);
+        }
+
+        private void CodeplexToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://binaryblocks.codeplex.com/");
+        }
     }
 }

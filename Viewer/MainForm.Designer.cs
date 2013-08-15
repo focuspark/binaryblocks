@@ -28,17 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            CommonTools.TreeListColumn treeListColumn1 = new CommonTools.TreeListColumn("datafield0", "Field");
+            CommonTools.TreeListColumn treeListColumn2 = new CommonTools.TreeListColumn("datafield1", "Type");
+            CommonTools.TreeListColumn treeListColumn3 = new CommonTools.TreeListColumn("datafield2", "Value");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decodeBase64ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this._dataTreeview = new CommonTools.TreeListView();
             this._openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.codeplexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataTreeview)).BeginInit();
@@ -47,7 +53,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
+            this.toolStripMenuItem1,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(383, 24);
@@ -78,6 +85,22 @@
             this.decodeBase64ToolStripMenuItem.Text = "Decode Base64";
             this.decodeBase64ToolStripMenuItem.Click += new System.EventHandler(this.DecodeBase64ToolStripMenuItem_Click);
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem,
+            this.codeplexToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -107,9 +130,16 @@
             // 
             // _dataTreeview
             // 
-            this._dataTreeview.Columns.Add(new CommonTools.TreeListColumn("datafield0", "Field") { AutoSize = true, AutoSizeMinSize = 0, AutoSizeRatio = 1, Width = 50 });
-            this._dataTreeview.Columns.Add(new CommonTools.TreeListColumn("datafield1", "Type") { AutoSize = true, AutoSizeMinSize = 0, AutoSizeRatio = 1, Width = 50 });
-            this._dataTreeview.Columns.Add(new CommonTools.TreeListColumn("datafield2", "Value") { AutoSize = true, AutoSizeMinSize = 0, AutoSizeRatio = 3, Width = 150 });
+            treeListColumn1.AutoSizeMinSize = 0;
+            treeListColumn1.Width = 50;
+            treeListColumn2.AutoSizeMinSize = 0;
+            treeListColumn2.Width = 50;
+            treeListColumn3.AutoSizeMinSize = 0;
+            treeListColumn3.Width = 50;
+            this._dataTreeview.Columns.AddRange(new CommonTools.TreeListColumn[] {
+            treeListColumn1,
+            treeListColumn2,
+            treeListColumn3});
             this._dataTreeview.Cursor = System.Windows.Forms.Cursors.Arrow;
             this._dataTreeview.Dock = System.Windows.Forms.DockStyle.Fill;
             this._dataTreeview.Images = null;
@@ -122,6 +152,13 @@
             // _openFileDialog
             // 
             this._openFileDialog.FileName = "_openFileDialog";
+            // 
+            // codeplexToolStripMenuItem
+            // 
+            this.codeplexToolStripMenuItem.Name = "codeplexToolStripMenuItem";
+            this.codeplexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.codeplexToolStripMenuItem.Text = "Codeplex";
+            this.codeplexToolStripMenuItem.Click += new System.EventHandler(this.CodeplexToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -157,6 +194,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripMenuItem decodeBase64ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem codeplexToolStripMenuItem;
     }
 }
 
