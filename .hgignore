@@ -1,4 +1,9 @@
 syntax: glob
+Viewer/obj/Release/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+BinaryBlocks.v11.suo
+Common/BinaryBlocks.cs.orig
+CsharpGenerator/CsharpGenerator.csproj.user
+CsharpGenerator/bin/Debug/bbcsgen.exe
 Viewer/obj/Release/bbview.pdb
 Viewer/obj/Release/bbview.exe
 Viewer/obj/Release/Viewer.csprojResolveAssemblyReference.cache
@@ -6,7 +11,6 @@ Viewer/obj/Release/Viewer.csproj.GenerateResource.Cache
 Viewer/obj/Release/Viewer.csproj.FileListAbsolute.txt
 Viewer/obj/Release/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
 Viewer/obj/Release/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
-Viewer/obj/Release/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
 Viewer/obj/Release/TempPE/Properties.Resources.Designer.cs.dll
 Viewer/obj/Release/DesignTimeResolveAssemblyReferencesInput.cache
 Viewer/obj/Release/DesignTimeResolveAssemblyReferences.cache
@@ -24,7 +28,6 @@ Viewer/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
 Viewer/obj/Debug/TempPE/Properties.Resources.Designer.cs.dll
 Viewer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 Viewer/obj/Debug/DesignTimeResolveAssemblyReferences.cache
-Viewer/obj/Debug/BinaryBlocks.Viewer.TextForm.resources
 Viewer/obj/Debug/BinaryBlocks.Viewer.Properties.Resources.resources
 Viewer/obj/Debug/BinaryBlocks.Viewer.MainForm.resources
 Viewer/bin/Release/bbview.vshost.exe.manifest
@@ -49,6 +52,7 @@ Sample/obj/Release/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.c
 Sample/obj/Release/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
 Sample/obj/Release/Sample.pdb
 Sample/obj/Release/Sample.exe
+Sample/obj/Release/Sample.csprojResolveAssemblyReference.cache
 Sample/obj/Release/Sample.csproj.FileListAbsolute.txt
 Sample/obj/Release/DesignTimeResolveAssemblyReferencesInput.cache
 Sample/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
@@ -81,6 +85,8 @@ CsharpGenerator/obj/Release/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B
 CsharpGenerator/obj/Release/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
 CsharpGenerator/obj/Release/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
 CsharpGenerator/obj/Release/TempPE/Properties.Resources.Designer.cs.dll
+CsharpGenerator/obj/Release/DesignTimeResolveAssemblyReferencesInput.cache
+CsharpGenerator/obj/Release/CsharpGenerator.csprojResolveAssemblyReference.cache
 CsharpGenerator/obj/Release/CsharpGenerator.csproj.GenerateResource.Cache
 CsharpGenerator/obj/Release/CsharpGenerator.csproj.FileListAbsolute.txt
 CsharpGenerator/obj/Release/BinaryBlocks.CsharpGenerator.Properties.Resources.resources
@@ -90,6 +96,8 @@ CsharpGenerator/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10
 CsharpGenerator/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
 CsharpGenerator/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
 CsharpGenerator/obj/Debug/TempPE/Properties.Resources.Designer.cs.dll
+CsharpGenerator/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+CsharpGenerator/obj/Debug/DesignTimeResolveAssemblyReferences.cache
 CsharpGenerator/obj/Debug/CsharpGenerator.csprojResolveAssemblyReference.cache
 CsharpGenerator/obj/Debug/CsharpGenerator.csproj.GenerateResource.Cache
 CsharpGenerator/obj/Debug/CsharpGenerator.csproj.FileListAbsolute.txt
@@ -100,8 +108,8 @@ CsharpGenerator/bin/Release/bbcsgen.vshost.exe
 CsharpGenerator/bin/Release/bbcsgen.pdb
 CsharpGenerator/bin/Release/bbcsgen.exe.config
 CsharpGenerator/bin/Release/bbcsgen.exe
+CsharpGenerator/bin/Debug/bbcsgen.vshost.exe.manifest
+CsharpGenerator/bin/Debug/bbcsgen.vshost.exe.config
+CsharpGenerator/bin/Debug/bbcsgen.vshost.exe
 CsharpGenerator/bin/Debug/bbcsgen.pdb
 CsharpGenerator/bin/Debug/bbcsgen.exe.config
-CsharpGenerator/bin/Debug/bbcsgen.exe
-CsharpGenerator/CsharpGenerator.csproj.user
-BinaryBlocks.v11.suo
