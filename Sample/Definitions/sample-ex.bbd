@@ -16,9 +16,9 @@ namespace Sample.More
 {
 	struct Person
 	{
-		type string Name = 1;
+		type string Name = 1 [expected];
 		type timestamp DoB = 2;
-		type timespan Len = 3;
+		type timespan Len = 3 [deprecated];
 		type Person Mother = 4;
 	}
 }
