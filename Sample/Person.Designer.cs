@@ -123,33 +123,34 @@ namespace Sample.More
             if (!stream.CanRead || !stream.CanSeek)
                 throw new System.InvalidOperationException();
 
-            BinaryBlocks.BinaryBlockReader reader = new BinaryBlocks.BinaryBlockReader(stream);
-
-            while (reader.Position < reader.Length)
+            using (BinaryBlocks.BinaryBlockReader reader = new BinaryBlocks.BinaryBlockReader(stream))
             {
-                BinaryBlocks.BinaryBlock block = reader.ReadBinaryBlock();
-
-                switch (block.Ordinal)
+                while (reader.Position < reader.Length)
                 {
-                    case _Name_ordinal:
-                        {
-                            this.Name = reader.ReadString();
-                        } break;
-                    case _DoB_ordinal:
-                        {
-                            this.DoB = reader.ReadTimestamp();
-                        } break;
-                    case _Len_ordinal:
-                        {
-                            this.Len = reader.ReadTimespan();
-                        } break;
-                    case _Mother_ordinal:
-                        {
-                            this.Mother = reader.ReadStruct<Person>();
-                        } break;
-                    default:
-                        reader.SkipBlock(block);
-                        break;
+                    BinaryBlocks.BinaryBlock block = reader.ReadBinaryBlock();
+
+                    switch (block.Ordinal)
+                    {
+                        case _Name_ordinal:
+                            {
+                                this.Name = reader.ReadString();
+                            } break;
+                        case _DoB_ordinal:
+                            {
+                                this.DoB = reader.ReadTimestamp();
+                            } break;
+                        case _Len_ordinal:
+                            {
+                                this.Len = reader.ReadTimespan();
+                            } break;
+                        case _Mother_ordinal:
+                            {
+                                this.Mother = reader.ReadStruct<Person>();
+                            } break;
+                        default:
+                            reader.SkipBlock(block);
+                            break;
+                    }
                 }
             }
         }
@@ -161,23 +162,24 @@ namespace Sample.More
             if (!stream.CanWrite)
                 throw new System.InvalidOperationException();
 
-            BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream);
-
-            if (_Name_exists)
+            using (BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream))
             {
-                writer.WriteString(_Name_value, _Name_ordinal);
-            }
-            if (_DoB_exists)
-            {
-                writer.WriteTimestamp(_DoB_value, _DoB_ordinal);
-            }
-            if (_Len_exists)
-            {
-                writer.WriteTimespan(_Len_value, _Len_ordinal);
-            }
-            if (_Mother_exists)
-            {
-                writer.WriteStruct<Person>(_Mother_value, _Mother_ordinal);
+                if (_Name_exists)
+                {
+                    writer.WriteString(_Name_value, _Name_ordinal);
+                }
+                if (_DoB_exists)
+                {
+                    writer.WriteTimestamp(_DoB_value, _DoB_ordinal);
+                }
+                if (_Len_exists)
+                {
+                    writer.WriteTimespan(_Len_value, _Len_ordinal);
+                }
+                if (_Mother_exists)
+                {
+                    writer.WriteStruct<Person>(_Mother_value, _Mother_ordinal);
+                }
             }
         }
     }

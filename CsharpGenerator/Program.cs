@@ -650,8 +650,8 @@ namespace BinaryBlocks.CsharpGenerator
                 CodeWriter accessors = new CodeWriter(writer.Depth);
                 CodeWriter constructor = new CodeWriter(writer.Depth + 1);
                 CodeWriter delcarations = new CodeWriter(writer.Depth);
-                CodeWriter deserialize = new CodeWriter(writer.Depth + 3);
-                CodeWriter serialize = new CodeWriter(writer.Depth + 1);
+                CodeWriter deserialize = new CodeWriter(writer.Depth + 4);
+                CodeWriter serialize = new CodeWriter(writer.Depth + 2);
 
                 {
                     Block.Member member = null;
@@ -816,19 +816,20 @@ namespace BinaryBlocks.CsharpGenerator
                     .Write("if (!stream.CanRead || !stream.CanSeek)")
                         .WriteIndented("throw new System.InvalidOperationException();")
                     .Write()
-                    .Write("BinaryBlocks.BinaryBlockReader reader = new BinaryBlocks.BinaryBlockReader(stream);")
-                    .Write()
-                    .Write("while (reader.Position < reader.Length)")
+                    .Write("using (BinaryBlocks.BinaryBlockReader reader = new BinaryBlocks.BinaryBlockReader(stream))")
                     .BeginBlock()
-                        .Write("BinaryBlocks.BinaryBlock block = reader.ReadBinaryBlock();")
-                        .Write()
-                        .Write("switch (block.Ordinal)")
-                            .BeginBlock()
-                                .Merge(deserialize)
-                                .Write("default:")
-                                    .WriteIndented("reader.SkipBlock(block);")
-                                    .WriteIndented("break;")
-                            .EndBlock()
+                        .Write("while (reader.Position < reader.Length)")
+                        .BeginBlock()
+                            .Write("BinaryBlocks.BinaryBlock block = reader.ReadBinaryBlock();")
+                            .Write()
+                            .Write("switch (block.Ordinal)")
+                                .BeginBlock()
+                                    .Merge(deserialize)
+                                    .Write("default:")
+                                        .WriteIndented("reader.SkipBlock(block);")
+                                        .WriteIndented("break;")
+                                .EndBlock()
+                        .EndBlock()
                     .EndBlock()
                 .EndBlock();
                 writer.Write();
@@ -839,9 +840,10 @@ namespace BinaryBlocks.CsharpGenerator
                     .Write("if (!stream.CanWrite)")
                         .WriteIndented("throw new System.InvalidOperationException();")
                     .Write()
-                    .Write("BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream);")
-                    .Write()
-                    .Merge(serialize)
+                    .Write("using (BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream))")
+                    .BeginBlock()
+                        .Merge(serialize)
+                    .EndBlock()
                 .EndBlock();
             }
             writer.EndBlock();

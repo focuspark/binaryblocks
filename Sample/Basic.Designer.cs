@@ -72,29 +72,30 @@ namespace Sample
             if (!stream.CanRead || !stream.CanSeek)
                 throw new System.InvalidOperationException();
 
-            BinaryBlocks.BinaryBlockReader reader = new BinaryBlocks.BinaryBlockReader(stream);
-
-            while (reader.Position < reader.Length)
+            using (BinaryBlocks.BinaryBlockReader reader = new BinaryBlocks.BinaryBlockReader(stream))
             {
-                BinaryBlocks.BinaryBlock block = reader.ReadBinaryBlock();
-
-                switch (block.Ordinal)
+                while (reader.Position < reader.Length)
                 {
-                    case _Text_ordinal:
-                        {
-                            this.Text = reader.ReadString();
-                        } break;
-                    case _Value_ordinal:
-                        {
-                            this.Value = reader.ReadSint();
-                        } break;
-                    case _Values_ordinal:
-                        {
-                            this.Values = reader.ReadSingleList();
-                        } break;
-                    default:
-                        reader.SkipBlock(block);
-                        break;
+                    BinaryBlocks.BinaryBlock block = reader.ReadBinaryBlock();
+
+                    switch (block.Ordinal)
+                    {
+                        case _Text_ordinal:
+                            {
+                                this.Text = reader.ReadString();
+                            } break;
+                        case _Value_ordinal:
+                            {
+                                this.Value = reader.ReadSint();
+                            } break;
+                        case _Values_ordinal:
+                            {
+                                this.Values = reader.ReadSingleList();
+                            } break;
+                        default:
+                            reader.SkipBlock(block);
+                            break;
+                    }
                 }
             }
         }
@@ -106,17 +107,18 @@ namespace Sample
             if (!stream.CanWrite)
                 throw new System.InvalidOperationException();
 
-            BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream);
-
-            if (_Text_exists)
+            using (BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream))
             {
-                writer.WriteString(_Text_value, _Text_ordinal);
+                if (_Text_exists)
+                {
+                    writer.WriteString(_Text_value, _Text_ordinal);
+                }
+                if (_Value_exists)
+                {
+                    writer.WriteSint(_Value_value, _Value_ordinal);
+                }
+                writer.WriteSingleList(this.Values, _Values_ordinal);
             }
-            if (_Value_exists)
-            {
-                writer.WriteSint(_Value_value, _Value_ordinal);
-            }
-            writer.WriteSingleList(this.Values, _Values_ordinal);
         }
     }
 }

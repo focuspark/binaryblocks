@@ -21,25 +21,26 @@ namespace Sample
             if (!stream.CanRead || !stream.CanSeek)
                 throw new System.InvalidOperationException();
 
-            BinaryBlocks.BinaryBlockReader reader = new BinaryBlocks.BinaryBlockReader(stream);
-
-            while (reader.Position < reader.Length)
+            using (BinaryBlocks.BinaryBlockReader reader = new BinaryBlocks.BinaryBlockReader(stream))
             {
-                BinaryBlocks.BinaryBlock block = reader.ReadBinaryBlock();
-
-                switch (block.Ordinal)
+                while (reader.Position < reader.Length)
                 {
-                    case _Leaves_ordinal:
-                        {
-                            this.Leaves = reader.ReadStructList<Basic>();
-                        } break;
-                    case _Branches_ordinal:
-                        {
-                            this.Branches = reader.ReadStructList<Complex>();
-                        } break;
-                    default:
-                        reader.SkipBlock(block);
-                        break;
+                    BinaryBlocks.BinaryBlock block = reader.ReadBinaryBlock();
+
+                    switch (block.Ordinal)
+                    {
+                        case _Leaves_ordinal:
+                            {
+                                this.Leaves = reader.ReadStructList<Basic>();
+                            } break;
+                        case _Branches_ordinal:
+                            {
+                                this.Branches = reader.ReadStructList<Complex>();
+                            } break;
+                        default:
+                            reader.SkipBlock(block);
+                            break;
+                    }
                 }
             }
         }
@@ -51,10 +52,11 @@ namespace Sample
             if (!stream.CanWrite)
                 throw new System.InvalidOperationException();
 
-            BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream);
-
-            writer.WriteStructList<Basic>(this.Leaves, _Leaves_ordinal);
-            writer.WriteStructList<Complex>(this.Branches, _Branches_ordinal);
+            using (BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream))
+            {
+                writer.WriteStructList<Basic>(this.Leaves, _Leaves_ordinal);
+                writer.WriteStructList<Complex>(this.Branches, _Branches_ordinal);
+            }
         }
     }
 }
