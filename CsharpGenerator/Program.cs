@@ -488,6 +488,40 @@ namespace BinaryBlocks.CsharpGenerator
 
             Block.Member block = new Block.Member(name, type, isList, source, initialIndex) { Ordinal = ordinal };
 
+            TextParser.SeekNext(content, ref index);
+
+            if (content[index] == '[')
+            {
+                while (content[index] != ']')
+                {
+                    index++;
+                    string word = TextParser.ParseWord(content, ref index);
+
+                    switch (word.ToLower())
+                    {
+                        case "expected":
+                            if (block.Deprecated)
+                                throw new TextParser.Exception(index, "member cannot be annotated as both expected and deprecated");
+                            if (block.Excepted)
+                                throw new TextParser.Exception(index, "member cannot be annotated as expected more than once");
+
+                            block.Excepted = true; 
+                            break;
+                        case "deprecated":
+                            if (block.Deprecated)
+                                throw new TextParser.Exception(index, "member cannot be annotated as both deprecated more than once");
+                            if (block.Excepted)
+                                throw new TextParser.Exception(index, "member cannot be annotated as deprecated and expected");
+
+                            block.Deprecated = true; 
+                            break;
+                        default:
+                            throw new TextParser.Exception(index, "unexpected annotation value");
+                    }
+                }
+                index++;
+            }
+
             TextParser.SeekAll(content, ref index, ';');
             index++;
 
@@ -696,6 +730,10 @@ namespace BinaryBlocks.CsharpGenerator
 
                             delcarations.Write("private const ushort _{0}_ordinal = {1};", member.Name, ordinal);
 
+                            if (member.Deprecated)
+                            {
+                                accessors.Write("[System.Obsolete(\"member has been deprecated\")]");
+                            }
                             accessors.Write("public System.Collections.Generic.List<{0}> {1} {{ get; private set; }}", cSharpType, member.Name);
 
                             if ((member.Type & BlockType.Struct) == BlockType.Struct)
@@ -727,6 +765,10 @@ namespace BinaryBlocks.CsharpGenerator
                             delcarations.Write("private const ushort _{0}_ordinal = {1};", member.Name, ordinal);
                             delcarations.Write("private {0} _{1}_value;", cSharpType, member.Name);
 
+                            if (member.Deprecated)
+                            {
+                                accessors.Write("[System.Obsolete(\"member has been deprecated\")]");
+                            }
                             accessors.Write("public {0} {1}", cSharpType, member.Name)
                                 .BeginBlock()
                                     .Write("get")

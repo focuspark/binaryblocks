@@ -67,6 +67,7 @@ namespace Sample.More
                 _DoB_exists = false;
             }
         }
+        [System.Obsolete("member has been deprecated")]
         public System.TimeSpan Len
         {
             get

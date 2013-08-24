@@ -36,6 +36,8 @@ namespace BinaryBlocks.CsharpGenerator.Block
             }
         }
 
+        public bool Deprecated { get; set; }
+        public bool Excepted { get; set; }
         public bool IsList
         {
             get { return ((this.Type & BlockType.List) == BlockType.List); }
