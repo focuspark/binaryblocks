@@ -1,7 +1,7 @@
 Binary Blocks
 Copyright (c) 2013 Jeremy Wyman, released under the Microsoft Public License (Ms-PL)
 
-A system for  data modeling and serializing data to persistant storage which is both backwards and forewards compatible. Using a form of markup, transient data can be persisted and retrived reliably.
+A system for  data modelling and serializing data to persistent storage which is both backwards and forwards compatible. Using a form of markup, transient data can be persisted and retrieved reliably.
 
 Supported Fields
 * type
@@ -52,11 +52,11 @@ Tag Structure
 !! NOTE: namespace, struct, and type names can only contain letters, numbers, and underscores and cannot begin with a number. !!
 
 Declarations
-*	Namespace declariations scope all struct definitions with in a given definition file. Only a single namespace can be defined per definition file; more than one definition file can share a single namespace.
+*	Namespace declarations scope all struct definitions with in a given definition file. Only a single namespace can be defined per definition file; more than one definition file can share a single namespace.
 
 	NOTE: A definition file without a namespace declaration will assume the empty namespace.
 
-*	Struct declcarations are in the format of the "struct" keyword followed by the name of the struct, followed by the definition of the struct bookended in a pair of braces "{ }".
+*	Struct declarations are in the format of the "struct" keyword followed by the name of the struct, followed by the definition of the struct bookended in a pair of braces "{ }".
 
 	Example:
 
@@ -65,12 +65,12 @@ Declarations
 		<definition>
 	}
 
-	Structs should contain a number of members, each suffixed with a ordinal. The ordinal is the unqiue identifier for the member within this struct definition. 
+	Structs should contain a number of members, each suffixed with a ordinal. The ordinal is the unique identifier for the member within this struct definition. 
 	Generally ordinals begin with 1, but can be any integer [1, 255]. This limits the number of members a struct can contain to 255.
 
 	NOTE: A struct without any member types will be ignored by the compiler.
 
-*	Enum delcarations are in the format of the "enum" keyword followed by the name of the enumeration and a bracketed list of the enumeration's values. Enumeration values are comma seperated and must be assigned literal values as needed.
+*	Enum declarations are in the format of the "enum" keyword followed by the name of the enumeration and a bracketed list of the enumeration's values. Enumeration values are comma separated and must be assigned literal values as needed.
 	Enumerations use a 32 bit signed storage type which allows for literal values ranging from -2147483648 to 2147483647.
 	
 	Example:
@@ -80,13 +80,12 @@ Declarations
 		<value name> = <literal value>,
 	}
 
-*	Type declarations are in the format of the "type" or "list" keyword followed by either a native type or the name of a customed defined struct, followed by the the name of the member. 
-	Each member must be suffixed with an unique ordinal. Each member definition
-	must be terminated with a semi-colon.
+*	Type declarations are in the format of the "type" or "list" keyword followed by either a native type or the name of a custom defined struct, followed by the the name of the member. 
+	Each member must be suffixed with an unique ordinal. Each member definition must be terminated with a semi-colon.
 
 	Example:
 
-	<type or list keyword> <native, struct, or enum name> <member name> = <ordinal>;
+	<type or list keyword> <native, struct, or enum name> <member name> = <ordinal> <annotations>;
 
 Microsoft Public License (Ms-PL)
 This license governs use of the accompanying software. If you use the software, you accept this license. If you do not accept the license, do not use the software.
