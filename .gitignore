@@ -97,3 +97,6 @@
 /Sample/bin/Debug/person.b3
 /Sample/obj/Release/Sample.csprojResolveAssemblyReference.cache
 /Viewer/obj/Debug/TempPE/Properties.Resources.Designer.cs.dll
+/Viewer/bin/Debug/bbview.vshost.exe
+/Viewer/bin/Debug/bbview.vshost.exe.config
+/Viewer/bin/Debug/bbview.vshost.exe.manifest

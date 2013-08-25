@@ -31,6 +31,7 @@
             CommonTools.TreeListColumn treeListColumn1 = new CommonTools.TreeListColumn("datafield0", "Field");
             CommonTools.TreeListColumn treeListColumn2 = new CommonTools.TreeListColumn("datafield1", "Type");
             CommonTools.TreeListColumn treeListColumn3 = new CommonTools.TreeListColumn("datafield2", "Value");
+            CommonTools.TreeListColumn treeListColumn4 = new CommonTools.TreeListColumn("datafield3", "Notes");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,16 +131,27 @@
             // 
             // _dataTreeview
             // 
+            treeListColumn1.AutoSize = true;
             treeListColumn1.AutoSizeMinSize = 0;
+            treeListColumn1.AutoSizeRatio = 4;
             treeListColumn1.Width = 50;
+            treeListColumn2.AutoSize = true;
             treeListColumn2.AutoSizeMinSize = 0;
+            treeListColumn2.AutoSizeRatio = 2;
             treeListColumn2.Width = 50;
+            treeListColumn3.AutoSize = true;
             treeListColumn3.AutoSizeMinSize = 0;
+            treeListColumn3.AutoSizeRatio = 2;
             treeListColumn3.Width = 50;
+            treeListColumn4.AutoSize = true;
+            treeListColumn4.AutoSizeMinSize = 0;
+            treeListColumn4.AutoSizeRatio = 2;
+            treeListColumn4.Width = 15;
             this._dataTreeview.Columns.AddRange(new CommonTools.TreeListColumn[] {
             treeListColumn1,
             treeListColumn2,
-            treeListColumn3});
+            treeListColumn3,
+            treeListColumn4});
             this._dataTreeview.Cursor = System.Windows.Forms.Cursors.Arrow;
             this._dataTreeview.Dock = System.Windows.Forms.DockStyle.Fill;
             this._dataTreeview.Images = null;
