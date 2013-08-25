@@ -59,6 +59,13 @@ namespace BinaryBlocks
         StructList = Struct | List,
     }
 
+    [System.Flags]
+    internal enum BlockFlags : byte
+    {
+        None = 0,
+        Deprecated = 1 << 0,
+    }
+
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit, Size = 4)]
     internal struct BinaryBlock
     {
@@ -70,7 +77,7 @@ namespace BinaryBlocks
         [System.Runtime.InteropServices.FieldOffset(1)]
         public ushort Ordinal;
         [System.Runtime.InteropServices.FieldOffset(3)]
-        public byte Reserved;
+        public BlockFlags Flags;
         [System.Runtime.InteropServices.FieldOffset(0)]
         public uint Value;
     }
@@ -457,9 +464,9 @@ namespace BinaryBlocks
         private System.IO.Stream _stream;
         #endregion
         #region Methods
-        public void WriteBlob(byte[] value, ushort ordinal)
+        public void WriteBlob(byte[] value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Blob }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Blob, Flags = flags }).Value);
             if (value == null)
             {
                 _writer.Write(BinaryBlock.NullExists);
@@ -471,9 +478,9 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteBlobList(System.Collections.Generic.List<byte[]> values, ushort ordinal)
+        public void WriteBlobList(System.Collections.Generic.List<byte[]> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.BlobList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.BlobList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -489,15 +496,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteByte(byte value, ushort ordinal)
+        public void WriteByte(byte value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Byte }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Byte, Flags = flags }).Value);
             _writer.Write(value);
         }
 
-        public void WriteByteList(System.Collections.Generic.List<byte> values, ushort ordinal)
+        public void WriteByteList(System.Collections.Generic.List<byte> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.ByteList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.ByteList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -505,15 +512,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteChar(char value, ushort ordinal)
+        public void WriteChar(char value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Char }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Char, Flags = flags }).Value);
             _writer.Write(value);
         }
 
-        public void WriteCharList(System.Collections.Generic.List<char> values, ushort ordinal)
+        public void WriteCharList(System.Collections.Generic.List<char> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.CharList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.CharList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -521,15 +528,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteDouble(double value, ushort ordinal)
+        public void WriteDouble(double value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Double }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Double, Flags = flags }).Value);
             _writer.Write(value);
         }
 
-        public void WriteDoubleList(System.Collections.Generic.List<double> values, ushort ordinal)
+        public void WriteDoubleList(System.Collections.Generic.List<double> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.DoubleList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.DoubleList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -537,16 +544,16 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteGuid(System.Guid value, ushort ordinal)
+        public void WriteGuid(System.Guid value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
             byte[] bytes = value.ToByteArray();
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Guid }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Guid, Flags = flags }).Value);
             _writer.Write(bytes);
         }
 
-        public void WriteGuidList(System.Collections.Generic.List<System.Guid> values, ushort ordinal)
+        public void WriteGuidList(System.Collections.Generic.List<System.Guid> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.GuidList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.GuidList, Flags = flags }).Value);
             _writer.Write(values.Count);
             byte[] bytes = null;
             for (int i = 0; i < values.Count; i++)
@@ -556,15 +563,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteSingle(float value, ushort ordinal)
+        public void WriteSingle(float value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Single }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Single, Flags = flags }).Value);
             _writer.Write(value);
         }
 
-        public void WriteSingleList(System.Collections.Generic.List<float> values, ushort ordinal)
+        public void WriteSingleList(System.Collections.Generic.List<float> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.SingleList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.SingleList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -572,15 +579,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteSint(int value, ushort ordinal)
+        public void WriteSint(int value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Sint }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Sint, Flags = flags }).Value);
             _writer.Write(value);
         }
 
-        public void WriteSintList(System.Collections.Generic.List<int> values, ushort ordinal)
+        public void WriteSintList(System.Collections.Generic.List<int> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.SintList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.SintList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -588,15 +595,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteSlong(long value, ushort ordinal)
+        public void WriteSlong(long value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Slong }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Slong, Flags = flags }).Value);
             _writer.Write(value);
         }
 
-        public void WriteSlongList(System.Collections.Generic.List<long> values, ushort ordinal)
+        public void WriteSlongList(System.Collections.Generic.List<long> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.SlongList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.SlongList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -604,9 +611,9 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteString(System.String value, ushort ordinal)
+        public void WriteString(System.String value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.String }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.String, Flags = flags }).Value);
             if (value == null)
             {
                 _writer.Write(BinaryBlock.NullExists);
@@ -619,9 +626,9 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteStringList(System.Collections.Generic.List<System.String> values, ushort ordinal)
+        public void WriteStringList(System.Collections.Generic.List<System.String> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.StringList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.StringList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -638,9 +645,9 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteStruct<T>(T value, ushort ordinal) where T : IBinaryBlock, new()
+        public void WriteStruct<T>(T value, ushort ordinal, BlockFlags flags = BlockFlags.None) where T : IBinaryBlock, new()
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Struct }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Struct, Flags = flags }).Value);
             if (value == null)
             {
                 _writer.Write(BinaryBlock.NullExists);
@@ -686,9 +693,9 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteStructList<T>(System.Collections.Generic.List<T> values, ushort ordinal)
+        public void WriteStructList<T>(System.Collections.Generic.List<T> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.StructList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.StructList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -738,15 +745,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteTimespan(System.TimeSpan value, ushort ordinal)
+        public void WriteTimespan(System.TimeSpan value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Timespan }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Timespan, Flags = flags }).Value);
             _writer.Write(value.Ticks);
         }
 
-        public void WriteTimespanList(System.Collections.Generic.List<System.TimeSpan> values, ushort ordinal)
+        public void WriteTimespanList(System.Collections.Generic.List<System.TimeSpan> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.TimespanList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.TimespanList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -754,15 +761,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteTimestamp(System.Timestamp value, ushort ordinal)
+        public void WriteTimestamp(System.Timestamp value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Timestamp }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Timestamp, Flags = flags }).Value);
             _writer.Write(value.TotalMilliseconds);
         }
 
-        public void WriteTimestampList(System.Collections.Generic.List<System.Timestamp> values, ushort ordinal)
+        public void WriteTimestampList(System.Collections.Generic.List<System.Timestamp> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.TimestampList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.TimestampList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -770,15 +777,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteUint(uint value, ushort ordinal)
+        public void WriteUint(uint value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Uint }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Uint, Flags = flags }).Value);
             _writer.Write(value);
         }
 
-        public void WriteUintList(System.Collections.Generic.List<uint> values, ushort ordinal)
+        public void WriteUintList(System.Collections.Generic.List<uint> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.UintList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.UintList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {
@@ -786,15 +793,15 @@ namespace BinaryBlocks
             }
         }
 
-        public void WriteUlong(ulong value, ushort ordinal)
+        public void WriteUlong(ulong value, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Ulong }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.Ulong, Flags = flags }).Value);
             _writer.Write(value);
         }
 
-        public void WriteUlongList(System.Collections.Generic.List<ulong> values, ushort ordinal)
+        public void WriteUlongList(System.Collections.Generic.List<ulong> values, ushort ordinal, BlockFlags flags = BlockFlags.None)
         {
-            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.UlongList }).Value);
+            _writer.Write((new BinaryBlock() { Ordinal = ordinal, Type = BlockType.UlongList, Flags = flags }).Value);
             _writer.Write(values.Count);
             for (int i = 0; i < values.Count; i++)
             {

@@ -167,19 +167,19 @@ namespace Sample.More
             {
                 if (_Name_exists)
                 {
-                    writer.WriteString(_Name_value, _Name_ordinal);
+                    writer.WriteString(_Name_value, _Name_ordinal, BinaryBlocks.BlockFlags.None);
                 }
                 if (_DoB_exists)
                 {
-                    writer.WriteTimestamp(_DoB_value, _DoB_ordinal);
+                    writer.WriteTimestamp(_DoB_value, _DoB_ordinal, BinaryBlocks.BlockFlags.None);
                 }
                 if (_Len_exists)
                 {
-                    writer.WriteTimespan(_Len_value, _Len_ordinal);
+                    writer.WriteTimespan(_Len_value, _Len_ordinal, BinaryBlocks.BlockFlags.Deprecated);
                 }
                 if (_Mother_exists)
                 {
-                    writer.WriteStruct<Person>(_Mother_value, _Mother_ordinal);
+                    writer.WriteStruct<Person>(_Mother_value, _Mother_ordinal, BinaryBlocks.BlockFlags.None);
                 }
             }
         }

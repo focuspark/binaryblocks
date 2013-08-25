@@ -54,8 +54,8 @@ namespace Sample
 
             using (BinaryBlocks.BinaryBlockWriter writer = new BinaryBlocks.BinaryBlockWriter(stream))
             {
-                writer.WriteStructList<Basic>(this.Leaves, _Leaves_ordinal);
-                writer.WriteStructList<Complex>(this.Branches, _Branches_ordinal);
+                writer.WriteStructList<Basic>(this.Leaves, _Leaves_ordinal, BinaryBlocks.BlockFlags.None);
+                writer.WriteStructList<Complex>(this.Branches, _Branches_ordinal, BinaryBlocks.BlockFlags.None);
             }
         }
     }

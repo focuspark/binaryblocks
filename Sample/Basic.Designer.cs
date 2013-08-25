@@ -111,13 +111,13 @@ namespace Sample
             {
                 if (_Text_exists)
                 {
-                    writer.WriteString(_Text_value, _Text_ordinal);
+                    writer.WriteString(_Text_value, _Text_ordinal, BinaryBlocks.BlockFlags.None);
                 }
                 if (_Value_exists)
                 {
-                    writer.WriteSint(_Value_value, _Value_ordinal);
+                    writer.WriteSint(_Value_value, _Value_ordinal, BinaryBlocks.BlockFlags.None);
                 }
-                writer.WriteSingleList(this.Values, _Values_ordinal);
+                writer.WriteSingleList(this.Values, _Values_ordinal, BinaryBlocks.BlockFlags.None);
             }
         }
     }

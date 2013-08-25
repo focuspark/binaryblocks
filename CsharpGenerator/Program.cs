@@ -745,7 +745,7 @@ namespace BinaryBlocks.CsharpGenerator
                                     .EndBlock("break;")
                                     .IndentLess();
 
-                                serialize.Write("writer.WriteStructList<{0}>(this.{1}, _{1}_ordinal);", cSharpType, member.Name);
+                                serialize.Write("writer.WriteStructList<{0}>(this.{1}, _{1}_ordinal, {2});", cSharpType, member.Name, member.Deprecated ? "BinaryBlocks.BlockFlags.Deprecated" : "BinaryBlocks.BlockFlags.None");
                             }
                             else
                             {
@@ -756,7 +756,7 @@ namespace BinaryBlocks.CsharpGenerator
                                     .EndBlock("break;")
                                     .IndentLess();
 
-                                serialize.Write("writer.Write{0}List(this.{1}, _{1}_ordinal);", member.Type ^ BlockType.List, member.Name);
+                                serialize.Write("writer.Write{0}List(this.{1}, _{1}_ordinal, {2});", member.Type ^ BlockType.List, member.Name, member.Deprecated ? "BinaryBlocks.BlockFlags.Deprecated" : "BinaryBlocks.BlockFlags.None");
                             }
                         }
                         else
@@ -806,7 +806,7 @@ namespace BinaryBlocks.CsharpGenerator
 
                                 serialize.Write("if (_{0}_exists)", member.Name)
                                     .BeginBlock()
-                                        .Write("writer.WriteStruct<{0}>(_{1}_value, _{1}_ordinal);", cSharpType, member.Name)
+                                        .Write("writer.WriteStruct<{0}>(_{1}_value, _{1}_ordinal, {2});", cSharpType, member.Name, member.Deprecated ? "BinaryBlocks.BlockFlags.Deprecated" : "BinaryBlocks.BlockFlags.None")
                                     .EndBlock();
                             }
                             else if ((member.Type & BlockType.Enum) == BlockType.Enum)
@@ -820,7 +820,7 @@ namespace BinaryBlocks.CsharpGenerator
 
                                 serialize.Write("if (_{0}_exists)", member.Name)
                                     .BeginBlock()
-                                        .Write("writer.WriteUint((uint)_{0}_value, _{0}_ordinal);", member.Name)
+                                    .Write("writer.WriteUint((uint)_{0}_value, _{0}_ordinal, {1});", member.Name, member.Deprecated ? "BinaryBlocks.BlockFlags.Deprecated" : "BinaryBlocks.BlockFlags.None")
                                     .EndBlock();
                             }
                             else
@@ -834,7 +834,7 @@ namespace BinaryBlocks.CsharpGenerator
 
                                 serialize.Write("if (_{0}_exists)", member.Name)
                                     .BeginBlock()
-                                        .Write("writer.Write{0}(_{1}_value, _{1}_ordinal);", member.Type, member.Name)
+                                        .Write("writer.Write{0}(_{1}_value, _{1}_ordinal, {2});", member.Type, member.Name, member.Deprecated ? "BinaryBlocks.BlockFlags.Deprecated" : "BinaryBlocks.BlockFlags.None")
                                     .EndBlock();
                             }
                         }

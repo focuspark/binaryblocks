@@ -87,3 +87,13 @@
 /Viewer/obj/Release/Viewer.csprojResolveAssemblyReference.cache
 /Viewer/obj/Release/bbview.exe
 /Viewer/obj/Release/bbview.pdb
+
+/CsharpGenerator/obj/Debug/TempPE/Properties.Resources.Designer.cs.dll
+/CsharpGenerator/obj/Release/CsharpGenerator.csprojResolveAssemblyReference.cache
+/Sample/bin/Debug/Sample.vshost.exe
+/Sample/bin/Debug/Sample.vshost.exe.config
+/Sample/bin/Debug/Sample.vshost.exe.manifest
+/Sample/bin/Debug/complex.b3
+/Sample/bin/Debug/person.b3
+/Sample/obj/Release/Sample.csprojResolveAssemblyReference.cache
+/Viewer/obj/Debug/TempPE/Properties.Resources.Designer.cs.dll
