@@ -163,7 +163,7 @@ namespace BinaryBlocks.CsharpGenerator
                 {
                     buffer.AppendLine(line);
                     length += line.Length;
-                    _fileLines[path].Add(length);
+                    _fileLines[path].Add(length + 2);
                 }
             }
             content = buffer.ToString();
@@ -505,7 +505,7 @@ namespace BinaryBlocks.CsharpGenerator
                             if (block.Excepted)
                                 throw new TextParser.Exception(index, "member cannot be annotated as expected more than once");
 
-                            block.Excepted = true; 
+                            block.Excepted = true;
                             break;
                         case "deprecated":
                             if (block.Deprecated)
@@ -513,7 +513,7 @@ namespace BinaryBlocks.CsharpGenerator
                             if (block.Excepted)
                                 throw new TextParser.Exception(index, "member cannot be annotated as deprecated and expected");
 
-                            block.Deprecated = true; 
+                            block.Deprecated = true;
                             break;
                         default:
                             throw new TextParser.Exception(index, "unexpected annotation value");

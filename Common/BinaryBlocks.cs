@@ -438,8 +438,7 @@ namespace BinaryBlocks
         #region System.IDisposable
         void System.IDisposable.Dispose()
         {
-            _reader.Dispose();
-            _stream.Dispose();
+            _stream.Flush();
         }
         #endregion
     }
@@ -812,8 +811,7 @@ namespace BinaryBlocks
         #region System.IDisposable
         void System.IDisposable.Dispose()
         {
-            _writer.Dispose();
-            _stream.Dispose();
+            _stream.Flush();
         }
         #endregion
     }
