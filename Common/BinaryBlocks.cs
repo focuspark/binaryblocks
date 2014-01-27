@@ -934,7 +934,7 @@ namespace System
         public const int YearsPer1CLeapYear = 100;
         public const int YearsPer4CLeapYear = 400;
         public const int YearsPer4MLeapYear = 4000;
-        public const int TicksPerMicrosecond = 10000;
+        public const int TicksPerMillisecond = 10000;
         public const long MillisecondsPerSecond = 1000;
         public const long MillisecondsPerMinute = MillisecondsPerSecond * SecondsPerMinute;
         public const long MillisecondsPerHour = MillisecondsPerMinute * MinutesPerHour;
@@ -1125,7 +1125,7 @@ namespace System
         /// <param name="datetime">The System.DateTime to be converted</param>
         /// <param name="era">Sets the era as CE or BCE</param>
         public Timestamp(System.DateTime datetime, TimestampEra era)
-            : this(datetime.Ticks / TicksPerMicrosecond * (era == TimestampEra.CE ? 1 : -1))
+            : this(datetime.Ticks / TicksPerMillisecond * (era == TimestampEra.CE ? 1 : -1))
         { }
 
         public Timestamp(System.Timestamp timestamp)
@@ -1182,7 +1182,7 @@ namespace System
         /// <summary>
         /// Gets the number of ticks that represent the date and time of this instance either before or after 0-1-1 00:00:00Z.
         /// </summary>
-        public long Ticks { get { return this.TotalMilliseconds * TicksPerMicrosecond; } }
+        public long Ticks { get { return this.TotalMilliseconds * TicksPerMillisecond; } }
         /// <summary>
         /// Get the number of milliseconds before or after 00-01-01 00:00:00.000Z
         /// </summary>
@@ -1197,7 +1197,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp Add(System.TimeSpan value)
         {
-            return new System.Timestamp(this.TotalMilliseconds + value.Ticks / TicksPerMicrosecond);
+            return new System.Timestamp(this.TotalMilliseconds + value.Ticks / TicksPerMillisecond);
         }
         /// <summary>
         /// Returns a new System.Timestamp that adds the specified number of days to the value of this instance.
@@ -1280,7 +1280,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">Value or the resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public System.Timestamp AddTicks(long value)
         {
-            return new System.Timestamp(this.TotalMilliseconds + value / TicksPerMicrosecond);
+            return new System.Timestamp(this.TotalMilliseconds + value / TicksPerMillisecond);
         }
         /// <summary>
         /// Returns a new System.Timestamp that adds the specified number of years to the value of this instance.
@@ -1296,9 +1296,10 @@ namespace System
         /// Converts System.Timestamp to System.DateTime.
         /// </summary>
         /// <returns>A System.DateTime which represents the same date and time as this System.Timespace.</returns>
+        [Obsolete("Use explicit cast (DateTime) instead")]
         public System.DateTime ToDateTime()
         {
-            return new System.DateTime(this.TotalMilliseconds * TicksPerMicrosecond, System.DateTimeKind.Utc);
+            return (DateTime)this;
         }
         #region System.Object
         /// <summary>
@@ -1400,7 +1401,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">The resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public static System.Timestamp operator -(System.Timestamp d, System.TimeSpan t)
         {
-            return new System.Timestamp(d.TotalMilliseconds - (t.Ticks / System.Timestamp.TicksPerMicrosecond));
+            return new System.Timestamp(d.TotalMilliseconds - (t.Ticks / System.Timestamp.TicksPerMillisecond));
         }
         /// <summary>
         /// Determines whether two specified instances of System.Timestamp are not equal.
@@ -1423,7 +1424,7 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">The resulting System.Timestamp is less than System.Timestamp.MinValue or greater than System.Timestamp.MaxValue.</exception>
         public static System.Timestamp operator +(System.Timestamp d, System.TimeSpan t)
         {
-            return new System.Timestamp(d.TotalMilliseconds + (t.Ticks / System.Timestamp.TicksPerMicrosecond));
+            return new System.Timestamp(d.TotalMilliseconds + (t.Ticks / System.Timestamp.TicksPerMillisecond));
         }
         /// <summary>
         /// Determines whether one specified System.Timestamp is less than another specified System.Timestamp.
@@ -1474,6 +1475,11 @@ namespace System
         public static bool operator >=(System.Timestamp a, System.Timestamp b)
         {
             return a.TotalMilliseconds >= b.TotalMilliseconds;
+        }
+
+        public static explicit operator DateTime(System.Timestamp a)
+        {
+            return new System.DateTime(a.TotalMilliseconds * TicksPerMillisecond, System.DateTimeKind.Utc);
         }
         #endregion
     }
