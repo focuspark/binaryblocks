@@ -1,8 +1,4 @@
-/Sample/bin/*
-/Sample/obj/*
-/CsharpGenerator/bin/*
-/CsharpGenerator/obj/*
-/Viewer/bin/*
-/Viewer/obj/*
+**/bin/**
+**/obj/**
 *.suo
 *.user
