@@ -64,6 +64,13 @@ namespace BinaryBlocks
     {
         None = 0,
         Deprecated = 1 << 0,
+        UnusedFlag1 = 1 << 1,
+        UnusedFlag2 = 1 << 2,
+        UnusedFlag3 = 1 << 3,
+        UnusedFlag4 = 1 << 4,
+        UnusedFlag5 = 1 << 5,
+        UnusedFlag6 = 1 << 6,
+        UnusedFlag7 = 1 << 7,
     }
 
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit, Size = 4)]
