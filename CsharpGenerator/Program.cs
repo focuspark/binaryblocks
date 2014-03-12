@@ -159,11 +159,12 @@ namespace BinaryBlocks.CsharpGenerator
             {
                 int length = 0;
                 string line = null;
+                int newlinelen = Environment.NewLine.Length;
                 while ((line = reader.ReadLine()) != null)
                 {
                     buffer.AppendLine(line);
-                    length += line.Length;
-                    _fileLines[path].Add(length + 2);
+                    length += line.Length + newlinelen;
+                    _fileLines[path].Add(length);
                 }
             }
             content = buffer.ToString();
@@ -229,7 +230,8 @@ namespace BinaryBlocks.CsharpGenerator
                 int position = 0;
                 for (int i = 0; i < _fileLines[path].Count; i++)
                 {
-                    if (_fileLines[path][i] > exception.Index)
+                    int charcount = _fileLines[path][i];
+                    if (charcount > exception.Index)
                     {
                         linenumber = i;
                         if (i > 0)
@@ -365,7 +367,7 @@ namespace BinaryBlocks.CsharpGenerator
                         }
                         else
                         {
-                            throw new TextParser.Exception(index);
+                            throw new TextParser.Exception(index - word.Length);
                         }
                     }
                     else if (content[index] == TextParser.CommentDelimiter)
@@ -443,7 +445,7 @@ namespace BinaryBlocks.CsharpGenerator
                         }
                         else
                         {
-                            throw new TextParser.Exception(index);
+                            throw new TextParser.Exception(index - word.Length);
                         }
                     }
                     else if (content[index] == TextParser.CommentDelimiter)
@@ -516,7 +518,7 @@ namespace BinaryBlocks.CsharpGenerator
                             block.Deprecated = true;
                             break;
                         default:
-                            throw new TextParser.Exception(index, "unexpected annotation value");
+                            throw new TextParser.Exception(index - word.Length, "unexpected annotation value");
                     }
                 }
                 index++;
@@ -625,6 +627,9 @@ namespace BinaryBlocks.CsharpGenerator
 
         private static void WriteRoot(Block.Base root, string directory)
         {
+            Debug.Assert(root != null);
+            Debug.Assert(!String.IsNullOrWhiteSpace(directory));
+
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
@@ -642,7 +647,7 @@ namespace BinaryBlocks.CsharpGenerator
             {
                 foreach (Block.Base child in (root as Block.Namespace).Children)
                 {
-                    WriteRoot(child as Block.Namespace, directory);
+                    WriteRoot(child, directory);
                 }
             }
             else
