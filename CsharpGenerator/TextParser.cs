@@ -86,7 +86,9 @@ namespace BinaryBlocks.CsharpGenerator
         {
             Debug.Assert(content != null);
             Debug.Assert(index >= 0 && index < content.Length);
-            Debug.Assert(content[index] == TextParser.StringDelimiter);
+
+            if (content[index] != TextParser.StringDelimiter)
+                throw new Exception(index, TextParser.StringDelimiter + " expected");
 
             StringBuilder buffer = new StringBuilder();
 
@@ -96,17 +98,7 @@ namespace BinaryBlocks.CsharpGenerator
                     throw new Exception(index, TextParser.StringDelimiter + " expected");
                 if (content[index] == TextParser.StringDelimiter)
                 {
-                    if (index + 1 >= content.Length)
-                        throw new Exception(index, TextParser.StringDelimiter + " expected");
-                    if (content[index + 1] == TextParser.StringDelimiter)
-                    {
-                        buffer.Append(content[index]);
-                        index++;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    break;
                 }
                 else
                 {
@@ -131,22 +123,21 @@ namespace BinaryBlocks.CsharpGenerator
             Debug.Assert(content != null);
             Debug.Assert(index >= 0 && index < content.Length);
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = index; i < content.Length; i++)
             {
-                for (int j = index; j < content.Length; j++)
+                if (Char.IsWhiteSpace(content[i]))
+                    continue;
+                if (content[i] == TextParser.CommentDelimiter)
                 {
-                    if (content[j] == values[i])
-                        return true;
-                    if (!Char.IsWhiteSpace(content[j]))
-                    {
-                        if (content[j] == TextParser.CommentDelimiter)
-                        {
-                            TextParser.SkipComment(content, ref j);
-                        }
-                        else
-                            return false;
-                    }
+                    TextParser.SkipComment(content, ref i);
                 }
+
+                for (int j = 0; j < values.Length; j++)
+                {
+                    if (content[i] == values[j])
+                        return true;
+                }
+                return false;
             }
             return false;
         }
@@ -156,33 +147,33 @@ namespace BinaryBlocks.CsharpGenerator
         /// <param name="content">Content to be scanned</param>
         /// <param name="index">Starting position within the content</param>
         /// <param name="values">List of characters to found in order</param>
-        public static void SeekAll(string content, ref int index, params char[] values)
+        public static void SeekAny(string content, ref int index, params char[] values)
         {
             Debug.Assert(content != null);
             Debug.Assert(index >= 0 && index < content.Length);
 
-            for (int i = 0; i < values.Length; i++)
+            while (index < content.Length)
             {
-                while (content[index] != values[i])
-                {
-                    if (!Char.IsWhiteSpace(content[index]))
-                    {
-                        if (content[index] == TextParser.CommentDelimiter)
-                        {
-                            TextParser.SkipComment(content, ref index);
-                        }
-                        else
-                        {
-                            throw new Exception(index, values[i] + " expected");
-                        }
-                    }
-                    index++;
-                }
-                // move to the next position in content if there are more values to seek
-                if (i + 1 < values.Length)
+                // ignore whitespace
+                if (Char.IsWhiteSpace(content[index]))
                 {
                     index++;
+                    continue;
                 }
+                // ignore comments
+                if (content[index] == TextParser.CommentDelimiter)
+                {
+                    TextParser.SkipComment(content, ref index);
+                    continue;
+                }
+                // attempt to match against any of the supplied values
+                for (int i = 0; i < values.Length; i++)
+                {
+                    if (content[index] == values[i])
+                        return;
+                }
+                // throw an exception because an unexpected character was reached
+                throw new Exception(index, "Unexpected character encountered");
             }
         }
         /// <summary>
@@ -197,16 +188,15 @@ namespace BinaryBlocks.CsharpGenerator
 
             while (index < content.Length)
             {
-                if (!Char.IsWhiteSpace(content[index]))
+                if (Char.IsWhiteSpace(content[index]))
+                    continue;
+                if (content[index] == TextParser.CommentDelimiter)
                 {
-                    if (content[index] == TextParser.CommentDelimiter)
-                    {
-                        TextParser.SkipComment(content, ref index);
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    TextParser.SkipComment(content, ref index);
+                }
+                else
+                {
+                    break;
                 }
                 index++;
             }
