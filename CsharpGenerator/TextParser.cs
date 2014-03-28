@@ -126,10 +126,14 @@ namespace BinaryBlocks.CsharpGenerator
             for (int i = index; i < content.Length; i++)
             {
                 if (Char.IsWhiteSpace(content[i]))
+                {
+                    index++;
                     continue;
+                }
                 if (content[i] == TextParser.CommentDelimiter)
                 {
                     TextParser.SkipComment(content, ref i);
+                    continue;
                 }
 
                 for (int j = 0; j < values.Length; j++)
@@ -175,6 +179,7 @@ namespace BinaryBlocks.CsharpGenerator
                 // throw an exception because an unexpected character was reached
                 throw new Exception(index, "Unexpected character encountered");
             }
+            throw new Exception(index, "Unexpected end of content reached");
         }
         /// <summary>
         /// Seeks forward from the initial index until it finds the next non-white space character
@@ -189,16 +194,17 @@ namespace BinaryBlocks.CsharpGenerator
             while (index < content.Length)
             {
                 if (Char.IsWhiteSpace(content[index]))
+                {
+                    index++;
                     continue;
+                }
                 if (content[index] == TextParser.CommentDelimiter)
                 {
                     TextParser.SkipComment(content, ref index);
+                    continue;
                 }
-                else
-                {
-                    break;
-                }
-                index++;
+
+                break;
             }
 
             return index < content.Length;
