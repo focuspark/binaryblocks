@@ -873,12 +873,12 @@ namespace BinaryBlocks
 
         public override long Seek(long offset, System.IO.SeekOrigin origin)
         {
-            int root = 0;
+            long root = 0;
 
             switch (origin)
             {
                 case System.IO.SeekOrigin.Begin:
-                    root = 0;
+                    root = _start;
                     break;
                 case System.IO.SeekOrigin.Current:
                     root = _position;
@@ -888,9 +888,9 @@ namespace BinaryBlocks
                     break;
             }
 
-            long position = 0;
+            long position = root + offset - _start;
 
-            _base.Seek(offset, origin);
+            _base.Seek(root + offset, origin);
 
             return position;
         }

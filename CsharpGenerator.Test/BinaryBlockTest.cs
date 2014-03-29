@@ -1032,7 +1032,7 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void SkipBlock()
         {
-            const int MaxTimeMs = 50000;
+            const int MaxTimeMs = 500;
 
             using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
             {
