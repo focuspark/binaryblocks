@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using BinaryBlocks.CsharpGenerator;
-using System.Threading;
 
 namespace BinaryBlocks.Test.CsharpGenerator
 {

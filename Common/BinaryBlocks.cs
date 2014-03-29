@@ -406,7 +406,7 @@ namespace BinaryBlocks
 
             for (int i = 0; i < count; i++)
             {
-                switch (block.Type ^ BlockType.List)
+                switch (block.Type & ~BlockType.List)
                 {
                     case BlockType.Byte:
                         _stream.Seek(1, System.IO.SeekOrigin.Current);
