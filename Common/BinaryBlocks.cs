@@ -904,6 +904,11 @@ namespace BinaryBlocks
         {
             _base.Write(buffer, offset, count);
             _position += count;
+
+            if (_position > _length)
+            {
+                _length = _position;
+            }
         }
         #endregion
     }
