@@ -43,6 +43,7 @@ namespace BinaryBlocks.CsharpGenerator
         {
             Debug.Assert(content != null);
             Debug.Assert(index >= 0 && index < content.Length);
+            Debug.Assert(content[index] == TextParser.CommentDelimiter);
 
             const char InlineComment = '/';
             const char BlockComment = '*';
