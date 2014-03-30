@@ -143,7 +143,7 @@ namespace BinaryBlocks.CsharpGenerator
             }
         }
         #region Parsing Methods
-        private static void ParseFile(string path)
+        internal static void ParseFile(string path)
         {
             if (!File.Exists(path))
             {
@@ -197,7 +197,7 @@ namespace BinaryBlocks.CsharpGenerator
                             }
                             else if (String.Equals("import", word, StringComparison.OrdinalIgnoreCase))
                             {
-                                TextParser.SeekAll(content, ref index, TextParser.StringDelimiter);
+                                TextParser.SeekAny(content, ref index, TextParser.StringDelimiter);
                                 string import = TextParser.ParseString(content, ref index);
                                 import = Path.Combine(Path.GetDirectoryName(path), import);
                                 ParseFile(import);
@@ -274,7 +274,7 @@ namespace BinaryBlocks.CsharpGenerator
             }
         }
 
-        private static Block.Enum ParseEnum(string content, string source, ref int index)
+        internal static Block.Enum ParseEnum(string content, string source, ref int index)
         {
             TextParser.SeekNext(content, ref index);
             int initialIndex = index;
@@ -284,7 +284,7 @@ namespace BinaryBlocks.CsharpGenerator
 
             if (!TextParser.PeekAny(content, index, TextParser.BlockBeginDelimiter))
                 throw new TextParser.Exception(index, String.Format("'{0}' expected", TextParser.BlockBeginDelimiter));
-            TextParser.SeekAll(content, ref index, TextParser.BlockBeginDelimiter);
+            TextParser.SeekAny(content, ref index, TextParser.BlockBeginDelimiter);
             index++;
 
             while (index < content.Length)
@@ -297,13 +297,13 @@ namespace BinaryBlocks.CsharpGenerator
                         byte ordinal = 0;
                         if (!ValidateBlockName(name))
                             throw new TextParser.Exception(index, "invalid name");
-                        TextParser.SeekAll(content, ref index, '=');
+                        TextParser.SeekAny(content, ref index, '=');
                         index++;
                         TextParser.SeekNext(content, ref index);
                         if (!Byte.TryParse(TextParser.ParseWord(content, ref index), out ordinal))
                             throw new TextParser.Exception(index, "invalid ordinal/value assignment");
                         block.Members.Add(ordinal, word);
-                        TextParser.SeekAll(content, ref index, ',');
+                        TextParser.SeekAny(content, ref index, ',');
                         index++;
                     }
                     else if (content[index] == TextParser.CommentDelimiter)
@@ -331,7 +331,7 @@ namespace BinaryBlocks.CsharpGenerator
             return block;
         }
 
-        private static Block.Namespace ParseNamespace(string content, string source, ref int index)
+        internal static Block.Namespace ParseNamespace(string content, string source, ref int index)
         {
             TextParser.SeekNext(content, ref index);
             string name = TextParser.ParseWord(content, ref index, '.');
@@ -397,7 +397,7 @@ namespace BinaryBlocks.CsharpGenerator
             return block;
         }
 
-        private static Block.Struct ParseStruct(string content, string source, ref int index)
+        internal static Block.Struct ParseStruct(string content, string source, ref int index)
         {
             TextParser.SeekNext(content, ref index);
             string name = TextParser.ParseWord(content, ref index);
@@ -473,7 +473,7 @@ namespace BinaryBlocks.CsharpGenerator
             return block;
         }
 
-        private static Block.Member ParseMember(string content, string source, ref int index, bool isList)
+        internal static Block.Member ParseMember(string content, string source, ref int index, bool isList)
         {
             TextParser.SeekNext(content, ref index);
             int initialIndex = index;
@@ -482,7 +482,7 @@ namespace BinaryBlocks.CsharpGenerator
             string name = TextParser.ParseWord(content, ref index);
             ushort ordinal = 0;
 
-            TextParser.SeekAll(content, ref index, '=');
+            TextParser.SeekAny(content, ref index, '=');
             index++;
             TextParser.SeekNext(content, ref index);
             if (!UInt16.TryParse(TextParser.ParseWord(content, ref index), out ordinal))
@@ -524,7 +524,7 @@ namespace BinaryBlocks.CsharpGenerator
                 index++;
             }
 
-            TextParser.SeekAll(content, ref index, ';');
+            TextParser.SeekAny(content, ref index, ';');
             index++;
 
             _blocks.Add(block);
