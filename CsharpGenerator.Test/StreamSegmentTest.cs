@@ -116,7 +116,7 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Write()
         {
-            const int MaxTimeMs = 500000;
+            const int MaxTimeMs = 500;
 
             using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
             {

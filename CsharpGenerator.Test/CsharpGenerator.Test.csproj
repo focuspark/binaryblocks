@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BinaryBlockTest.cs" />
+    <Compile Include="ProgramTest.cs" />
     <Compile Include="StreamSegmentTest.cs" />
     <Compile Include="TextParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

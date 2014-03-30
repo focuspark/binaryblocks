@@ -143,7 +143,7 @@ namespace BinaryBlocks.CsharpGenerator
             }
         }
         #region Parsing Methods
-        private static void ParseFile(string path)
+        internal static void ParseFile(string path)
         {
             if (!File.Exists(path))
             {
@@ -274,7 +274,7 @@ namespace BinaryBlocks.CsharpGenerator
             }
         }
 
-        private static Block.Enum ParseEnum(string content, string source, ref int index)
+        internal static Block.Enum ParseEnum(string content, string source, ref int index)
         {
             TextParser.SeekNext(content, ref index);
             int initialIndex = index;
@@ -331,7 +331,7 @@ namespace BinaryBlocks.CsharpGenerator
             return block;
         }
 
-        private static Block.Namespace ParseNamespace(string content, string source, ref int index)
+        internal static Block.Namespace ParseNamespace(string content, string source, ref int index)
         {
             TextParser.SeekNext(content, ref index);
             string name = TextParser.ParseWord(content, ref index, '.');
@@ -397,7 +397,7 @@ namespace BinaryBlocks.CsharpGenerator
             return block;
         }
 
-        private static Block.Struct ParseStruct(string content, string source, ref int index)
+        internal static Block.Struct ParseStruct(string content, string source, ref int index)
         {
             TextParser.SeekNext(content, ref index);
             string name = TextParser.ParseWord(content, ref index);
@@ -473,7 +473,7 @@ namespace BinaryBlocks.CsharpGenerator
             return block;
         }
 
-        private static Block.Member ParseMember(string content, string source, ref int index, bool isList)
+        internal static Block.Member ParseMember(string content, string source, ref int index, bool isList)
         {
             TextParser.SeekNext(content, ref index);
             int initialIndex = index;
