@@ -1573,9 +1573,14 @@ namespace System
             return a.TotalMilliseconds >= b.TotalMilliseconds;
         }
 
-        public static explicit operator DateTime(System.Timestamp a)
+        public static explicit operator System.DateTime(System.Timestamp a)
         {
             return new System.DateTime(a.TotalMilliseconds * TicksPerMillisecond, System.DateTimeKind.Utc);
+        }
+
+        public static explicit operator System.Timestamp(System.DateTime a)
+        {
+            return new System.Timestamp(a.ToUniversalTime());
         }
         #endregion
     }
