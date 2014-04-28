@@ -73,6 +73,26 @@ namespace BinaryBlocks
         UnusedFlag7 = 1 << 7,
     }
 
+#if WINDOWS_PHONE || NETCF
+    internal struct BinaryBlock
+    {
+        public const int NullExists = -1;
+        public static readonly BinaryBlock Empty = new BinaryBlock() { Value = 0 };
+
+        public BlockType Type;
+        public ushort Ordinal;
+        public BlockFlags Flags;
+        public uint Value
+        {
+            get { return (((uint)Ordinal) << 8) + (uint)Type; }
+            set
+            {
+                Ordinal = (ushort)(value >> 8);
+                Type = (BlockType)(value & 0x000000FF);
+            }
+        }
+    }
+#else
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit, Size = 4)]
     internal struct BinaryBlock
     {
@@ -88,6 +108,7 @@ namespace BinaryBlocks
         [System.Runtime.InteropServices.FieldOffset(0)]
         public uint Value;
     }
+#endif
 
     internal class BinaryBlockReader : System.IDisposable
     {
@@ -854,7 +875,10 @@ namespace BinaryBlocks
         #region Methods
         public override void Flush()
         {
-            throw new System.NotSupportedException();
+            if (_base.CanWrite && _base.CanSeek)
+            {
+                _base.Flush();
+            }
         }
 
         public override int Read(byte[] buffer, int offset, int count)
