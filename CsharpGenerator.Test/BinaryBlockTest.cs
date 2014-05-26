@@ -1077,36 +1077,41 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void EnumerableStructStream()
         {
-            TestStruct[] values = new TestStruct[20];
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = new TestStruct();
-            }
+            const int MaxTimeMs = 100;
 
-            using (MemoryStream stream = new MemoryStream())
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
-                EnumerableStructStreamReader<TestStruct> reader = new EnumerableStructStreamReader<TestStruct>(stream);
-                EnumerableStructStreamWriter<TestStruct> writer = new EnumerableStructStreamWriter<TestStruct>(stream);
-
+                TestStruct[] values = new TestStruct[20];
                 for (int i = 0; i < values.Length; i++)
                 {
-                    writer.Add(values[i]);
+                    values[i] = new TestStruct();
                 }
 
-                stream.Flush();
-                stream.Seek(0, SeekOrigin.Begin);
-
-                int j = 0;
-                foreach (TestStruct t in reader)
+                using (MemoryStream stream = new MemoryStream())
                 {
-                    Assert.IsNotNull(t);
-                    Assert.IsTrue(t.Value == values[j].Value);
-                    Assert.IsTrue(t.Values.Length == values[j].Values.Length);
-                    for (int k = 0; k < t.Values.Length; k++)
+                    EnumerableStructStream<TestStruct> reader = new EnumerableStructStream<TestStruct>(stream);
+                    EnumerableStructStream<TestStruct> writer = new EnumerableStructStream<TestStruct>(stream);
+
+                    for (int i = 0; i < values.Length; i++)
                     {
-                        Assert.IsTrue(t.Values[k] == values[j].Values[k]);
+                        writer.Add(values[i]);
                     }
-                    j++;
+
+                    stream.Flush();
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    int j = 0;
+                    foreach (TestStruct t in reader)
+                    {
+                        Assert.IsNotNull(t);
+                        Assert.IsTrue(t.Value == values[j].Value);
+                        Assert.IsTrue(t.Values.Length == values[j].Values.Length);
+                        for (int k = 0; k < t.Values.Length; k++)
+                        {
+                            Assert.IsTrue(t.Values[k] == values[j].Values[k]);
+                        }
+                        j++;
+                    }
                 }
             }
         }

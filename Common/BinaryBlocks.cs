@@ -928,33 +928,89 @@ namespace BinaryBlocks
         #endregion
     }
 
-    internal class EnumerableStructStreamReader<T> : System.IDisposable, System.Collections.Generic.IEnumerable<T>
+    internal class EnumerableStructStream<T> : System.IDisposable, System.Collections.Generic.IEnumerable<T>
         where T : IBinaryBlock, new()
     {
         #region Constructors
-        public EnumerableStructStreamReader(System.IO.Stream baseStream)
+        public EnumerableStructStream(System.IO.Stream baseStream, bool blocking = true)
         {
             if (baseStream == null)
                 throw new System.ArgumentNullException("baseStream");
             if (!baseStream.CanRead)
                 throw new System.IO.InvalidDataException("baseStream must be readable");
+            if (!baseStream.CanWrite)
+                throw new System.IO.InvalidDataException("baseStream must be writable");
 
             _baseStream = baseStream;
+            _writer = new BinaryBlockWriter(baseStream);
+            _blocking = blocking;
         }
         #endregion
         #region Members
         private System.IO.Stream _baseStream;
+        private BinaryBlockWriter _writer;
+        private bool _blocking;
+
+        public bool IsBlocked { get; private set; }
+        #endregion
+        #region Methods
+        public void Add(T value)
+        {
+            lock (_baseStream)
+            {
+                // record the position of the base-stream
+                long position = _baseStream.Position;
+                // seek to the end of the base-stream
+                _baseStream.Seek(0, System.IO.SeekOrigin.End);
+                // write the struct to the stream
+                _writer.WriteStruct<T>(value, 0, BlockFlags.None);
+                // seek back to the original position
+                _baseStream.Seek(position, System.IO.SeekOrigin.Begin);
+                // notify all threads that the stream has been updated
+                System.Threading.Monitor.PulseAll(_baseStream);
+            }
+        }
         #endregion
         #region System.Collections.Generic.IEnumerator<T>
+        /// <summary>
+        /// Yields a series of values of type T, if the end of stream is reached the enumerator blocks waiting for more content.
+        /// </summary>
+        /// <returns></returns>
         public System.Collections.Generic.IEnumerator<T> GetEnumerator()
         {
+            long position = _baseStream.Position;
             using (BinaryBlockReader reader = new BinaryBlockReader(_baseStream))
             {
-                BinaryBlock block = reader.ReadBinaryBlock();
-                if (block.Ordinal != 0 || block.Type != BlockType.Struct)
-                    throw new System.IO.InvalidDataException();
-                T value = reader.ReadStruct<T>();
-                yield return value;
+                lock (_baseStream)
+                {
+                    // so long as their is nothing to read (position == length)...
+                    while (_baseStream.Position == _baseStream.Length)
+                    {
+                        // if the enumerator is blocking, wait
+                        if (_blocking)
+                        {
+                            this.IsBlocked = true;
+                            System.Threading.Monitor.Wait(_baseStream);
+                        }
+                        else
+                        {
+                            yield break;
+                        }
+                    }
+                    this.IsBlocked = false;
+                    // seek to last known good read position
+                    _baseStream.Seek(position, System.IO.SeekOrigin.Begin);
+                    // read the binary block and verify it
+                    BinaryBlock block = reader.ReadBinaryBlock();
+                    if (block.Ordinal != 0 || block.Type != BlockType.Struct)
+                        throw new System.IO.InvalidDataException();
+                    // read the struct from the stream
+                    T value = reader.ReadStruct<T>();
+                    // record a new last known good position
+                    position = _baseStream.Position;
+                    // yield the value
+                    yield return value;
+                }
             }
             yield break;
         }
@@ -972,41 +1028,6 @@ namespace BinaryBlocks
         void System.IDisposable.Dispose()
         {
             _baseStream.Flush();
-            _baseStream.Dispose();
-        }
-        #endregion
-    }
-
-    internal class EnumerableStructStreamWriter<T> : System.IDisposable
-        where T : IBinaryBlock, new()
-    {
-        #region Constructors
-        public EnumerableStructStreamWriter(System.IO.Stream baseStream)
-        {
-            if (baseStream == null)
-                throw new System.ArgumentNullException("baseStream");
-            if (!baseStream.CanWrite)
-                throw new System.IO.InvalidDataException("baseStream must be writable");
-
-            _baseStream = baseStream;
-            _writer = new BinaryBlockWriter(_baseStream);
-        }
-        #endregion
-        #region Members
-        private System.IO.Stream _baseStream;
-        private BinaryBlockWriter _writer;
-        #endregion
-        #region Methods
-        public void Add(T value)
-        {
-            _writer.WriteStruct<T>(value, 0, BlockFlags.None);
-        }
-        #endregion
-        #region System.IDisposable
-        void System.IDisposable.Dispose()
-        {
-            _baseStream.Flush();
-            _baseStream.Dispose();
         }
         #endregion
     }
