@@ -1,11 +1,19 @@
 /* namespaces use the C# format of declaration */
 namespace Sample
 {
+    enum Values
+    {
+        Foo = 1,
+        Bar = 2,
+        Baz = 3,
+    }
+
 	struct Basic
 	{
 		type string Text = 1;
 		type sint Value = 2;
-		// an array of 32 bit floating values is easy to delcare
-		list single Values = 3;
+        type Values Enum = 3;
+		// an array of 32 bit floating values is easy to declare
+		list single Values = 4;
 	}
 }

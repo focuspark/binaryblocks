@@ -145,7 +145,7 @@ namespace BinaryBlocks.CsharpGenerator
         #region Parsing Methods
         internal static void ParseFile(string path)
         {
-            if (!File.Exists(path))
+            if (!File.Exists(Path.Combine(Environment.CurrentDirectory, path)))
             {
                 Console.Error.WriteLine("The file \"{0}\" was not found", path);
                 Environment.Exit(-1);
