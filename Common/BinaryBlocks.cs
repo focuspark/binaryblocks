@@ -928,6 +928,89 @@ namespace BinaryBlocks
         #endregion
     }
 
+    internal class EnumerableStructStreamReader<T> : System.IDisposable, System.Collections.Generic.IEnumerable<T>
+        where T : IBinaryBlock, new()
+    {
+        #region Constructors
+        public EnumerableStructStreamReader(System.IO.Stream baseStream)
+        {
+            if (baseStream == null)
+                throw new System.ArgumentNullException("baseStream");
+            if (!baseStream.CanRead)
+                throw new System.IO.InvalidDataException("baseStream must be readable");
+
+            _baseStream = baseStream;
+        }
+        #endregion
+        #region Members
+        private System.IO.Stream _baseStream;
+        #endregion
+        #region System.Collections.Generic.IEnumerator<T>
+        public System.Collections.Generic.IEnumerator<T> GetEnumerator()
+        {
+            using (BinaryBlockReader reader = new BinaryBlockReader(_baseStream))
+            {
+                BinaryBlock block = reader.ReadBinaryBlock();
+                if (block.Ordinal != 0 || block.Type != BlockType.Struct)
+                    throw new System.IO.InvalidDataException();
+                T value = reader.ReadStruct<T>();
+                yield return value;
+            }
+            yield break;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            foreach (var value in this)
+            {
+                yield return value;
+            }
+            yield break;
+        }
+        #endregion
+        #region System.IDisposable
+        void System.IDisposable.Dispose()
+        {
+            _baseStream.Flush();
+            _baseStream.Dispose();
+        }
+        #endregion
+    }
+
+    internal class EnumerableStructStreamWriter<T> : System.IDisposable
+        where T : IBinaryBlock, new()
+    {
+        #region Constructors
+        public EnumerableStructStreamWriter(System.IO.Stream baseStream)
+        {
+            if (baseStream == null)
+                throw new System.ArgumentNullException("baseStream");
+            if (!baseStream.CanWrite)
+                throw new System.IO.InvalidDataException("baseStream must be writable");
+
+            _baseStream = baseStream;
+            _writer = new BinaryBlockWriter(_baseStream);
+        }
+        #endregion
+        #region Members
+        private System.IO.Stream _baseStream;
+        private BinaryBlockWriter _writer;
+        #endregion
+        #region Methods
+        public void Add(T value)
+        {
+            _writer.WriteStruct<T>(value, 0, BlockFlags.None);
+        }
+        #endregion
+        #region System.IDisposable
+        void System.IDisposable.Dispose()
+        {
+            _baseStream.Flush();
+            _baseStream.Dispose();
+        }
+        #endregion
+    }
+
     internal interface IBinaryBlock
     {
         void Serialize(System.IO.Stream input);
@@ -1334,7 +1417,7 @@ namespace System
             {
                 int year = this.Year + i;
                 milliseconds += MillisecondsPerYear;
-                if(IsLeapYear(year))
+                if (IsLeapYear(year))
                 {
                     milliseconds += MillisecondsPerDay;
                 }

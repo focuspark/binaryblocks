@@ -1073,5 +1073,42 @@ namespace BinaryBlocks.Test.CsharpGenerator
                 }
             }
         }
+
+        [TestMethod]
+        public void EnumerableStructStream()
+        {
+            TestStruct[] values = new TestStruct[20];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = new TestStruct();
+            }
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                EnumerableStructStreamReader<TestStruct> reader = new EnumerableStructStreamReader<TestStruct>(stream);
+                EnumerableStructStreamWriter<TestStruct> writer = new EnumerableStructStreamWriter<TestStruct>(stream);
+
+                for (int i = 0; i < values.Length; i++)
+                {
+                    writer.Add(values[i]);
+                }
+
+                stream.Flush();
+                stream.Seek(0, SeekOrigin.Begin);
+
+                int j = 0;
+                foreach (TestStruct t in reader)
+                {
+                    Assert.IsNotNull(t);
+                    Assert.IsTrue(t.Value == values[j].Value);
+                    Assert.IsTrue(t.Values.Length == values[j].Values.Length);
+                    for (int k = 0; k < t.Values.Length; k++)
+                    {
+                        Assert.IsTrue(t.Values[k] == values[j].Values[k]);
+                    }
+                    j++;
+                }
+            }
+        }
     }
 }
