@@ -12,9 +12,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void SkipComment()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int index1 = 0;
                 TextParser.SkipComment("/* comment */ not_a_comment", ref index1);
@@ -41,9 +41,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void ParseString()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int index1 = 0;
                 string result1 = TextParser.ParseString("\"a string\"", ref index1);
@@ -73,9 +73,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void PeekAny()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 // this test should pass because only whitespace preceeds the first match
                 int index1 = 0;
@@ -96,9 +96,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void SeekAny()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 // this test should pass because only whitespace preceeds the first match
                 int index1 = 0;
@@ -128,9 +128,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void SeekNext()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int index1 = 0;
                 if (!TextParser.SeekNext("next", ref index1))
@@ -157,9 +157,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void ParseBlock()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int index1 = 0;
                 string result1 = TextParser.ParseBlock("{ block }", ref index1, '{', '}');
@@ -176,9 +176,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void ParseWord()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int index1 = 0;
                 string result1 = TextParser.ParseWord("word", ref index1);

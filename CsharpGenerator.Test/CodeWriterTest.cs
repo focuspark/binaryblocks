@@ -12,9 +12,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void BeginBlock()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 CodeWriter writer = new CodeWriter();
                 writer.BeginBlock();
@@ -29,9 +29,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void EndBlock()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 CodeWriter writer = new CodeWriter();
                 writer.BeginBlock();
@@ -49,9 +49,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void IndentLess()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 CodeWriter writer = new CodeWriter(5);
                 writer.Write("foo");
@@ -66,9 +66,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void IndentMore()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 CodeWriter writer = new CodeWriter(4);
                 writer.Write("foo");
@@ -83,9 +83,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Merge()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 CodeWriter writer1 = new CodeWriter();
                 writer1.Write("class Foo");
@@ -109,9 +109,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Write()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 CodeWriter writer = new CodeWriter();
                 writer.Write("foo bar bat baz");
@@ -130,9 +130,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void WriteIndented()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 CodeWriter writer = new CodeWriter(1);
                 writer.Write("foo");

@@ -16,9 +16,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void BinaryBlock()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 BinaryBlock source = new BinaryBlock() { Value = (uint)rand.Next() };
 
@@ -41,9 +41,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Blob()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 byte[] source = System.Text.Encoding.UTF8.GetBytes("this is some sample text used to generate bytes to test blobs");
 
@@ -77,9 +77,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void BlobList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<byte[]> source = new List<byte[]>
                 {
@@ -121,9 +121,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Byte()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 byte source = 127;
 
@@ -152,9 +152,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void ByteList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<byte> source = new List<byte> { 1, 2, 3, 4 };
 
@@ -188,9 +188,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Char()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 char source = 'x';
 
@@ -219,9 +219,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void CharList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<char> source = new List<char> { 't', 'e', 's', 't' };
 
@@ -255,9 +255,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void DoubleTest()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 double source = rand.NextDouble();
 
@@ -286,9 +286,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void DoubleList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<double> source = new List<double> { rand.NextDouble(), rand.NextDouble(), rand.NextDouble(), rand.NextDouble() };
 
@@ -322,9 +322,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Guid()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Guid source = System.Guid.NewGuid();
 
@@ -353,9 +353,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void GuidList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<Guid> source = new List<Guid> { System.Guid.NewGuid(), System.Guid.NewGuid(), System.Guid.NewGuid(), System.Guid.NewGuid(), };
 
@@ -389,9 +389,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Single()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 float source = (float)rand.NextDouble();
 
@@ -420,9 +420,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void SingleList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<float> source = new List<float> { (float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble() };
 
@@ -456,9 +456,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Sint()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int source = rand.Next();
 
@@ -487,9 +487,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void SintList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<int> source = new List<int> { rand.Next(), rand.Next(), rand.Next(), rand.Next(), };
 
@@ -523,9 +523,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Slong()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 long source = rand.Next();
 
@@ -554,9 +554,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void SlongList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<long> source = new List<long> { rand.Next(), rand.Next(), rand.Next(), rand.Next(), };
 
@@ -590,9 +590,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void String()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 string source = "this is a test string";
 
@@ -621,9 +621,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void StringList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<string> source = new List<string> { "tests 1 string", "test two string", "third test string", "fourth string for test" };
 
@@ -685,9 +685,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Struct()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 TestStruct source = new TestStruct();
 
@@ -722,9 +722,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void StructList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<TestStruct> source = new List<TestStruct> { new TestStruct(), new TestStruct(), new TestStruct(), new TestStruct(), };
 
@@ -764,9 +764,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Timespan()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 TimeSpan source = TimeSpan.FromTicks(rand.Next()); ;
 
@@ -795,9 +795,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void TimespanList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<TimeSpan> source = new List<TimeSpan> { TimeSpan.FromTicks(rand.Next()), TimeSpan.FromTicks(rand.Next()), TimeSpan.FromTicks(rand.Next()), TimeSpan.FromTicks(rand.Next()), };
 
@@ -831,9 +831,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Timestamp()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source = new Timestamp((long)rand.Next());
 
@@ -862,9 +862,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void TimestampList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<Timestamp> source = new List<Timestamp> { new Timestamp((long)rand.Next()), new Timestamp((long)rand.Next()), new Timestamp((long)rand.Next()), new Timestamp((long)rand.Next()), };
 
@@ -898,9 +898,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Uint()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 uint source = (uint)rand.Next();
 
@@ -929,9 +929,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void UintList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<uint> source = new List<uint> { (uint)rand.Next(), (uint)rand.Next(), (uint)rand.Next(), (uint)rand.Next(), };
 
@@ -965,9 +965,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Ulong()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 ulong source = (ulong)rand.Next();
 
@@ -996,9 +996,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void UlongList()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 List<ulong> source = new List<ulong> { (ulong)rand.Next(), (ulong)rand.Next(), (ulong)rand.Next(), (ulong)rand.Next(), };
 
@@ -1032,9 +1032,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void SkipBlock()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 string source = "this is a test string";
 

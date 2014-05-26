@@ -17,36 +17,11 @@ namespace BinaryBlocks.Test.CsharpGenerator
         private static readonly Random rand = new Random();
 
         [TestMethod]
-        public void Flush()
-        {
-            const int MaxTimeMs = 500;
-
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
-            {
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    byte[] buffer = new byte[buffer_length];
-                    rand.NextBytes(buffer);
-                    stream.Write(buffer, 0, buffer.Length);
-                    stream.Seek(segment_start, SeekOrigin.Begin);
-
-                    StreamSegment segment = new StreamSegment(stream, segment_size);
-                    try
-                    {
-                        segment.Flush();
-                        Assert.Fail();
-                    }
-                    catch { /* this exception is a good thing */ }
-                }
-            }
-        }
-
-        [TestMethod]
         public void Read()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 using (MemoryStream stream = new MemoryStream())
                 {
@@ -72,7 +47,7 @@ namespace BinaryBlocks.Test.CsharpGenerator
         {
             const int MaxTimeMs = 50000;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 using (MemoryStream stream = new MemoryStream())
                 {
@@ -91,9 +66,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void SetLength()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 using (MemoryStream stream = new MemoryStream())
                 {
@@ -116,9 +91,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Write()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 using (MemoryStream stream = new MemoryStream())
                 {

@@ -14,9 +14,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void ParseEnum()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int index = 0;
                 BinaryBlocks.CsharpGenerator.Block.Enum result = Program.ParseEnum(" Foo {\r\n\tBar = 1,\r\n\tBaz = 2,\r\n}", "mstest", ref index);
@@ -39,9 +39,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void ParseNamespace()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int index = 0;
                 BinaryBlocks.CsharpGenerator.Block.Namespace result = Program.ParseNamespace("Foo { /* empty namespace */ }", "mstest", ref index);
@@ -69,9 +69,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void ParseStruct()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int index = 0;
                 BinaryBlocks.CsharpGenerator.Block.Struct result = Program.ParseStruct(" Foo {\r\n\ttype string Bar = 1;\r\n\ttype sint Baz = 2;\r\n}", "mstest", ref index);
@@ -112,9 +112,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void ParseMember()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 int index = 0;
                 BinaryBlocks.CsharpGenerator.Block.Member result = Program.ParseMember(" ulong Value = 4;", "mstest", ref index, false);

@@ -14,9 +14,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Add()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source1 = new Timestamp();
 
@@ -57,9 +57,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void AddDays()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source1 = new Timestamp();
 
@@ -100,9 +100,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void AddHours()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source1 = new Timestamp();
 
@@ -143,9 +143,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void AddMilliseconds()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source1 = new Timestamp();
 
@@ -186,9 +186,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void AddMonths()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source1 = new Timestamp();
 
@@ -229,9 +229,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void AddSeconds()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source1 = new Timestamp();
 
@@ -272,9 +272,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void AddTicks()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source1 = new Timestamp();
 
@@ -316,9 +316,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void AddYears()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source1 = new Timestamp();
 
@@ -359,9 +359,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void ToString()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 Timestamp source1 = new Timestamp(2099, 3, 5, 12, 45);
                 string result1 = source1.ToString();
@@ -372,9 +372,9 @@ namespace BinaryBlocks.Test.CsharpGenerator
         [TestMethod]
         public void Operators()
         {
-            const int MaxTimeMs = 500;
+            const int MaxTimeMs = 100;
 
-            using (Timer timer = new Timer((object o) => { Assert.Fail(); }, null, MaxTimeMs, -1))
+            using (Timer timer = new Timer((object o) => { Assert.Fail("Timed out"); }, null, MaxTimeMs, -1))
             {
                 DateTime datetime = DateTime.Now;
                 TimeSpan timespan = TimeSpan.FromDays(79);
