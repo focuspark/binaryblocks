@@ -539,19 +539,8 @@ namespace BinaryBlocks.CsharpGenerator
 
             if (node.Parent != null && node.Parent is Block.Namespace && !(node.Parent is Block.Struct))
             {
-                Block.Base parent = node.Parent as Block.Namespace;
-                StringBuilder buffer = new StringBuilder();
-
-                while (parent != null)
-                {
-                    buffer.Append(parent).Append(".");
-                    parent = parent.Parent;
-                }
-                buffer.Remove(buffer.Length - 1, 1);
-
-                writer.Write("namespace {0}{1}", _baseNamespace, buffer.ToString());
+                writer.Write("namespace {0}{1}", _baseNamespace, node.Parent.FullName);
                 writer.BeginBlock();
-
                 wroteNamespace = true;
             }
 

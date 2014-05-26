@@ -51,6 +51,7 @@
     <Compile Include="Person.Designer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Values.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
