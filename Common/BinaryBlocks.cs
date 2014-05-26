@@ -863,7 +863,7 @@ namespace BinaryBlocks
         public override long Length { get { return _length; } }
         public override long Position
         {
-            get { return (int)_position; }
+            get { return (long)_position; }
             set { _position = (int)value; }
         }
 
@@ -926,8 +926,10 @@ namespace BinaryBlocks
 
         public override void Write(byte[] buffer, int offset, int count)
         {
+            long initPosition = _base.Position;
             _base.Write(buffer, offset, count);
-            _position += count;
+            long lastPosition = _base.Position;
+            _position += (int)(lastPosition - initPosition);
 
             if (_position > _length)
             {
