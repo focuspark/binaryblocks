@@ -692,7 +692,7 @@ namespace BinaryBlocks
                     (value as IBinaryBlock).Serialize(stream);
                     // move the write cursor back to the placeholder
                     int length = (int)stream.Position;
-                    _stream.Position -= (length + sizeof(int));
+                    _stream.Position -= (length);
                     // write the size of the struct
                     _writer.Write(length);
                     // move the write cursor back to the correct position
