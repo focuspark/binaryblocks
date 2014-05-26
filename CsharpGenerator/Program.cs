@@ -641,7 +641,7 @@ namespace BinaryBlocks.CsharpGenerator
             }
             else if (root is Block.Enum)
             {
-                WriteFile(root, root.Name + ".Designer.cs");
+                WriteFile(root, Path.Combine(directory, root.Name + ".Designer.cs"));
             }
             else if (root is Block.Namespace)
             {

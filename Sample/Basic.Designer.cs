@@ -13,7 +13,10 @@ namespace Sample
         private bool _Value_exists;
         private const ushort _Value_ordinal = 2;
         private int _Value_value;
-        private const ushort _Values_ordinal = 3;
+        private bool _Enum_exists;
+        private const ushort _Enum_ordinal = 3;
+        private Values _Enum_value;
+        private const ushort _Values_ordinal = 4;
         /* Public */
         public string Text
         {
@@ -63,6 +66,30 @@ namespace Sample
                 _Value_exists = false;
             }
         }
+        public Values Enum
+        {
+            get
+            {
+                if (_Enum_exists)
+                    return _Enum_value;
+                throw new System.InvalidOperationException();
+            }
+            set
+            {
+                _Enum_value = value;
+                _Enum_exists = true;
+            }
+        }
+        public bool Enum_exists
+        {
+            get { return _Enum_exists; }
+            set
+            {
+                if (value)
+                    throw new System.InvalidOperationException();
+                _Enum_exists = false;
+            }
+        }
         public System.Collections.Generic.List<float> Values { get; private set; }
 
         public void Deserialize(System.IO.Stream stream)
@@ -87,6 +114,10 @@ namespace Sample
                         case _Value_ordinal:
                             {
                                 this.Value = reader.ReadSint();
+                            } break;
+                        case _Enum_ordinal:
+                            {
+                                this.Enum = (Values)reader.ReadUint();
                             } break;
                         case _Values_ordinal:
                             {
@@ -116,6 +147,10 @@ namespace Sample
                 if (_Value_exists)
                 {
                     writer.WriteSint(_Value_value, _Value_ordinal, BinaryBlocks.BlockFlags.None);
+                }
+                if (_Enum_exists)
+                {
+                    writer.WriteUint((uint)_Enum_value, _Enum_ordinal, BinaryBlocks.BlockFlags.None);
                 }
                 writer.WriteSingleList(this.Values, _Values_ordinal, BinaryBlocks.BlockFlags.None);
             }
