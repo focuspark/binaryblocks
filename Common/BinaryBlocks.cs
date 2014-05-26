@@ -735,10 +735,10 @@ namespace BinaryBlocks
                     // write in-place if the stream supports seek
                     if (_stream.CanSeek)
                     {
-                        // create a new stream wrapper
-                        StreamSegment stream = new StreamSegment(_stream, 0);
                         // write a placeholder for the length
                         _writer.Write((int)0);
+                        // create a new stream wrapper
+                        StreamSegment stream = new StreamSegment(_stream, 0);
                         // serialize the struct into the stream
                         (values[i] as IBinaryBlock).Serialize(stream);
                         // move the write cursor back to the placeholder
@@ -852,7 +852,6 @@ namespace BinaryBlocks
             _base = stream;
             _length = length;
             _start = stream.Position;
-            _position = 0;
         }
         #endregion
         #region Members
@@ -860,16 +859,15 @@ namespace BinaryBlocks
         public override bool CanSeek { get { return _base.CanSeek; } }
         public override bool CanTimeout { get { return _base.CanTimeout; } }
         public override bool CanWrite { get { return _base.CanWrite; } }
-        public override long Length { get { return _length; } }
+        public override long Length { get { return System.Math.Max(this.Position, _length); } }
         public override long Position
         {
-            get { return (long)_position; }
-            set { _position = (int)value; }
+            get { return _base.Position - _start; }
+            set { _base.Position = value - _start; }
         }
 
         private System.IO.Stream _base;
         private int _length;
-        private int _position;
         private long _start;
         #endregion
         #region Methods
@@ -883,15 +881,14 @@ namespace BinaryBlocks
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (_position + offset > _length)
+            if (this.Position + offset > _length)
                 return 0;
-            if (_position + offset + count > _length)
+            if (this.Position + offset + count > _length)
             {
-                count = _position + offset + count - _length;
+                count = (int)this.Position + offset + count - _length;
             }
 
             int read = _base.Read(buffer, offset, count);
-            _position += read;
             return read;
         }
 
@@ -905,7 +902,7 @@ namespace BinaryBlocks
                     root = _start;
                     break;
                 case System.IO.SeekOrigin.Current:
-                    root = _position;
+                    root = this.Position;
                     break;
                 case System.IO.SeekOrigin.End:
                     root = _length;
@@ -926,15 +923,7 @@ namespace BinaryBlocks
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            long initPosition = _base.Position;
             _base.Write(buffer, offset, count);
-            long lastPosition = _base.Position;
-            _position += (int)(lastPosition - initPosition);
-
-            if (_position > _length)
-            {
-                _length = _position;
-            }
         }
         #endregion
     }

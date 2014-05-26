@@ -703,16 +703,16 @@ namespace BinaryBlocks.Test.CsharpGenerator
                     using (BinaryBlockReader reader = new BinaryBlockReader(stream))
                     {
                         BinaryBlock block = reader.ReadBinaryBlock();
-                        Assert.IsTrue(block.Ordinal == 1);
-                        Assert.IsTrue(block.Type == BlockType.Struct);
+                        Assert.IsTrue(block.Ordinal == 1, "block.Ordinal != 1");
+                        Assert.IsTrue(block.Type == BlockType.Struct, "block.Type != Struct");
 
                         TestStruct result = reader.ReadStruct<TestStruct>();
-                        Assert.IsFalse(source == result);
-                        Assert.IsTrue(source.Value == result.Value);
-                        Assert.IsTrue(source.Values.Length == result.Values.Length);
+                        Assert.IsFalse(source == result, "source != result");
+                        Assert.IsTrue(source.Value == result.Value, "source.Value != result.Value");
+                        Assert.IsTrue(source.Values.Length == result.Values.Length, "source.Values.Length != result.Values.Length");
                         for (int i = 0; i < source.Values.Length && i < result.Values.Length; i++)
                         {
-                            Assert.IsTrue(source.Values[i] == result.Values[i]);
+                            Assert.IsTrue(source.Values[i] == result.Values[i], System.String.Format("source.Values[{0}] != result.Values[{0}]", i));
                         }
                     }
                 }
